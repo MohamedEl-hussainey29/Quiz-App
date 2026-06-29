@@ -8,7 +8,7 @@ export default function AuthLayout({children}: {children: React.ReactNode}) {
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* Left Side */}
-        <div className="text-white w-full max-w-md pl-6">
+        <div className="w-full ">
           <Image src={authLogo} alt="QuizWiz Logo" className="mb-10 w-64 h-auto"/>
           {children}
         </div>
@@ -16,11 +16,7 @@ export default function AuthLayout({children}: {children: React.ReactNode}) {
         {/* Right Side */}
         <div className="hidden lg:flex justify-center">
           <div className="rounded-3xl">
-            <Image
-              src={authImage}
-              alt="AuthImg"
-              className="w-full h-auto"
-            />
+            <Image src={authImage} alt="AuthImg" className="w-full h-auto"/>
           </div>
         </div>
 

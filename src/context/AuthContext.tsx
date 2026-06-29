@@ -1,94 +1,54 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
-import { AuthAPI } from "../api";
-import { loginFormValues, RegisterFormValues } from "../types/auth";
-
-// ── Types ──────────────────────────────────────────────────────────────────
+import { jwtDecode } from "jwt-decode";
+import { createContext, useEffect, useState, type ReactNode } from "react";
 
 export interface User {
-  id: string;
-  name: string;
+  _id: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  role?: "student" | "admin";
+  status: string;
+  role: string;
 }
 
-interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
+interface AuthContextInterface {
+  userData: User | null;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
+  loading: boolean;
+  saveUserData: () => void;
 }
 
-interface AuthContextValue extends AuthState {
-  login: (loginData: loginFormValues) => Promise<void>;
-  register: (registerData: RegisterFormValues) => Promise<void>;
-  logout: () => void;
+interface AuthContextProviderProps {
+  children: ReactNode;
 }
 
+export const AuthContext = createContext<AuthContextInterface | null>(null);
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+export default function AuthContextProvider({children}: AuthContextProviderProps) {
+  const [userData, setUserData] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  const saveUserData = () => {
+    const encodedToken = localStorage.getItem("token");
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: true,
-  });
+    if (encodedToken) {
+      const decodedToken = jwtDecode<User>(encodedToken);
+      setUserData(decodedToken);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const raw = localStorage.getItem("user");
-
-    if (token && raw) {
-      try {
-        const user: User = JSON.parse(raw);
-        setState({ user, isAuthenticated: true, isLoading: false });
-      } catch {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setState((s) => ({ ...s, isLoading: false }));
-      }
+    if (localStorage.getItem("token")) {
+      saveUserData();
     } else {
-      setState((s) => ({ ...s, isLoading: false }));
+      setLoading(false);
     }
   }, []);
 
-  const persist = (user: User, token: string) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    setState({ user, isAuthenticated: true, isLoading: false });
-  };
-
-  const login = useCallback(async (loginData: loginFormValues) => {
-    const { data } = await AuthAPI.Login(loginData);
-    persist(data?.data?.profile, data?.data?.accessToken);
-  }, []);
-
-  const register = useCallback(async (registerData: RegisterFormValues) => {
-    const { data } = await AuthAPI.Register(registerData);
-    persist(data?.data?.profile, data?.data?.accessToken);
-  }, []);
-
-  const logout = useCallback(async() => {
-    await AuthAPI.Logout()
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setState({ user: null, isAuthenticated: false, isLoading: false });
-    window.location.href = "/auth/login";
-  }, []);
-
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{userData,setUserData,loading,saveUserData}}>{children}</AuthContext.Provider>
   );
-}
-
-
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
-  return ctx;
 }
