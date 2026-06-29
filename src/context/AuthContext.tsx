@@ -17,6 +17,7 @@ interface AuthContextInterface {
   userData: User | null;
   setUserData: React.Dispatch<React.SetStateAction<User | null>>;
   loading: boolean;
+  isAuthenticated: boolean;
   saveUserData: () => void;
 }
 
@@ -29,6 +30,8 @@ export const AuthContext = createContext<AuthContextInterface | null>(null);
 export default function AuthContextProvider({children}: AuthContextProviderProps) {
   const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const isAuthenticated = !!userData;
 
   const saveUserData = () => {
     const encodedToken = localStorage.getItem("token");
@@ -49,6 +52,6 @@ export default function AuthContextProvider({children}: AuthContextProviderProps
   }, []);
 
   return (
-    <AuthContext.Provider value={{userData,setUserData,loading,saveUserData}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{userData,setUserData,loading,isAuthenticated,saveUserData}}>{children}</AuthContext.Provider>
   );
 }
