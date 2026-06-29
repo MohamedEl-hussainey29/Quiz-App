@@ -15,8 +15,7 @@ export default function ChnagePassForm() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [submitLoading , setSubmitLoading] = useState(false);
 
-    const {register,handleSubmit,formState: { errors } , watch} = useForm<ChangePassFormValues>();
-    const newPassword = watch("password_new");
+    const {register,handleSubmit,formState: { errors } , getValues} = useForm<ChangePassFormValues>();
 
     const onSubmit = async(data: ChangePassFormValues)=>{
         try {
@@ -148,7 +147,7 @@ export default function ChnagePassForm() {
                   value: 8,
                   message: "Confirm Password should be at least 8 characters!",
                 },
-                validate: (value) => value === newPassword || "Passwords do not match",
+                validate: (value) => value === getValues("password_new") || "Passwords do not match",
                 })}
               />
               <button
