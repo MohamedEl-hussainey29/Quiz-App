@@ -73,7 +73,9 @@ export default function LoginForm() {
                   pattern:{
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message:'Email is not valid!'
-                }})}
+                },
+                validate: (value) => !/\s/.test(value) || "Email cannot contain spaces",
+                })}
               />
               
             </div>
@@ -106,7 +108,8 @@ export default function LoginForm() {
                   minLength: {
                   value: 8,
                   message: "Password should be at least 8 characters!",
-                }
+                },
+                validate: (value) => !/\s/.test(value) || "Email cannot contain spaces",
                 })}
               />
               <button
