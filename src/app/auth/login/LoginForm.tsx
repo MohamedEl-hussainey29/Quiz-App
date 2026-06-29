@@ -33,9 +33,7 @@ export default function LoginForm() {
             toast.success(response?.data?.message)
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                toast.error(
-                error.response?.data?.message || "Invalid email or password"
-                );
+                toast.error(error.response?.data?.message || "Invalid email or password");
             } else {
                 toast.error("Something went wrong");
             }
@@ -87,7 +85,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <FaKey
-                className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.email ? "text-red-500" : "text-white"}`}
+                className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.password ? "text-red-500" : "text-white"}`}
                 size={20}
               />
               <input
@@ -109,7 +107,7 @@ export default function LoginForm() {
                   value: 8,
                   message: "Password should be at least 8 characters!",
                 },
-                validate: (value) => !/\s/.test(value) || "Email cannot contain spaces",
+                validate: (value) => !/\s/.test(value) || "Password cannot contain spaces",
                 })}
               />
               <button

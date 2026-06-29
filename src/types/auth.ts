@@ -11,3 +11,9 @@ export interface RegisterFormValues{
     password: string;
     role: string;
 }
+
+export interface ChangePassFormValues{
+    password: string;
+    password_new: string;
+    password_confirm: string;
+}
