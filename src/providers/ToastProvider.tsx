@@ -12,7 +12,7 @@ export default function ToastProvider() {
       newestOnTop
       closeOnClick
       pauseOnHover
-      theme="light"
+      theme="colored"
     />
   );
 }
