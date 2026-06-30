@@ -49,7 +49,7 @@ export default function RegisterForm() {
   return (
     <>
       <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="firstName" className="text-white mb-2 inline-block">
               Your first name
@@ -57,7 +57,7 @@ export default function RegisterForm() {
 
             <div className="relative ">
               <FaRegAddressCard
-                className="text-white absolute top-1/2 left-4 -translate-y-1/2"
+                className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.first_name ? "text-red-500" : "text-white"}`}
                 size={20}
               />
               <input
@@ -96,7 +96,7 @@ export default function RegisterForm() {
 
             <div className="relative ">
               <FaRegAddressCard
-                className="text-white absolute top-1/2 left-4 -translate-y-1/2"
+                className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.last_name ? "text-red-500" : "text-white"}`}
                 size={20}
               />
               <input
@@ -125,7 +125,7 @@ export default function RegisterForm() {
             )}
           </div>
         </div>
-
+        <div className="grid md:grid-cols-2 md:gap-4">
         <div className="mt-4">
           <label htmlFor="email" className="text-white mb-2 inline-block">
             Your email address
@@ -133,7 +133,7 @@ export default function RegisterForm() {
 
           <div className="relative ">
             <FaEnvelope
-              className="text-white absolute top-1/2 left-4 -translate-y-1/2"
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.email ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
@@ -165,54 +165,13 @@ export default function RegisterForm() {
         </div>
 
         <div className="mt-4">
-          <label htmlFor="role" className="text-white mb-2 inline-block">
-            Your role
-          </label>
-
-          <div className="relative ">
-            <FaUser
-              className="text-white absolute top-1/2 left-4 -translate-y-1/2"
-              size={20}
-            />
-            <select
-              defaultValue=""
-              id="role"
-              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all  
-             border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30 appearance-none
-             text-white
-             ${
-                    errors.role
-                        ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                        : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-                    }
-             `}
-              {...register("role", {
-                required: "role is required!",
-              })}
-            >
-              <option value="" disabled>
-                Choose your role
-              </option>
-              <option value="Student" className="text-black">
-                Student
-              </option>
-              <option value="Instructor" className="text-black">
-                Instructor
-              </option>
-            </select>
-            <IoChevronDown className="absolute top-1/2 right-4 -translate-y-1/2 text-white pointer-events-none" />
-          </div>
-          {errors.role && <span className="text-red-500">{errors.role.message}</span>}
-        </div>
-
-        <div className="mt-4">
           <label htmlFor="password" className="text-white mb-2 inline-block">
             Password
           </label>
 
           <div className="relative ">
             <FaKey
-              className="text-white absolute top-1/2 left-4 -translate-y-1/2"
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.password ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
@@ -254,10 +213,54 @@ export default function RegisterForm() {
             <span className="text-red-500">{errors.password.message}</span>
           )}
         </div>
+        </div>
+
+        <div className="mt-4">
+          <label htmlFor="role" className="text-white mb-2 inline-block">
+            Your role
+          </label>
+
+          <div className="relative ">
+            <FaUser
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.role ? "text-red-500" : "text-white"}`}
+              size={20}
+            />
+            <select
+              defaultValue=""
+              id="role"
+              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all  
+             border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30 appearance-none
+             text-white
+             ${
+                errors.role
+                    ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                    : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                }
+             `}
+              {...register("role", {
+                required: "role is required!",
+              })}
+            >
+              <option value="" disabled>
+                Choose your role
+              </option>
+              <option value="Student" className="text-black">
+                Student
+              </option>
+              <option value="Instructor" className="text-black">
+                Instructor
+              </option>
+            </select>
+            <IoChevronDown className="absolute top-1/2 right-4 -translate-y-1/2 text-white pointer-events-none" />
+          </div>
+          {errors.role && <span className="text-red-500">{errors.role.message}</span>}
+        </div>
+
+        
 
         <button
           type="submit"
-          className=" mt-5
+          className=" my-5
                     flex w-full items-center justify-center gap-2
                     rounded-xl bg-white px-8 py-4
                     font-bold text-black
