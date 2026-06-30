@@ -6,7 +6,7 @@ export default function ChangePassword() {
     <>
       <ProtectedRoutes>
         <div className="w-full">
-          <h1 className="text-[#C5D86D] text-[25px]">Change password</h1>
+          <h1 className="text-[#C5D86D] text-[25px] md:mb-10">Change password</h1>
           <ChangePassForm/>
         </div>
       </ProtectedRoutes>
