@@ -9,7 +9,7 @@ export default function AuthLayout({children}: {children: React.ReactNode}) {
 
         {/* Left Side */}
         <div className="w-full ">
-          <Image src={authLogo} alt="QuizWiz Logo" className="mb-10 w-64 h-auto"/>
+          <Image src={authLogo} alt="QuizWiz Logo" className="mt-4 mb-10 w-64 h-auto"/>
           {children}
         </div>
 
