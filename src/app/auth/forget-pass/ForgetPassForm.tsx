@@ -44,7 +44,7 @@ export default function ForgetPassForm() {
           </label>
           <div className="relative">
             <FaEnvelope
-              className={`absolute left-4 top-1/2 -translate-y-1/2 text-white`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.email ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
@@ -52,10 +52,14 @@ export default function ForgetPassForm() {
               id="email"
               placeholder="Type your email"
               className={`
-                         w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
-                        
-                         text-white
-                     `}
+                  w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                  ${
+                  errors.email
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                      : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                  }
+                  text-white
+              `}
               {...register("email", {
                 required: "email is required!",
                 pattern: {
