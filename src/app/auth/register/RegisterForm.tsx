@@ -256,8 +256,6 @@ export default function RegisterForm() {
           {errors.role && <span className="text-red-500">{errors.role.message}</span>}
         </div>
 
-        
-
         <button
           type="submit"
           className=" my-5
