@@ -73,7 +73,7 @@ export default function RegisterForm() {
                }
                `}
                 {...register("first_name", {
-                  required: "firstName is required",
+                  required: "First Name is required",
                   minLength: {
                     value: 3,
                     message: "first name must be more than 3 characters",
@@ -112,7 +112,7 @@ export default function RegisterForm() {
               }
               `}
                 {...register("last_name", {
-                  required: "lastName is required",
+                  required: "Last Name is required",
                   minLength: {
                     value: 3,
                     message: "last name must be more than 3 characters",
