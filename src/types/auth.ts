@@ -17,3 +17,7 @@ export interface ChangePassFormValues{
     password_new: string;
     password_confirm: string;
 }
+
+export interface ForgetPasswordValues{
+    email: string;
+}
