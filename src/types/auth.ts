@@ -21,3 +21,10 @@ export interface ChangePassFormValues{
 export interface ForgetPasswordValues{
     email: string;
 }
+
+export interface ResetPasswordValues{
+    otp: string;
+    email: string;
+    password: string;
+    confirmPassword?: string;
+}

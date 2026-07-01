@@ -1,4 +1,4 @@
-import { ForgetPasswordValues, LoginFormValues, RegisterFormValues } from "@/src/types/auth"
+import { ForgetPasswordValues, LoginFormValues, RegisterFormValues, ResetPasswordValues } from "@/src/types/auth"
 import axiosClient from "../axiosClient"
 
 
@@ -21,4 +21,8 @@ export const ChangePassword = (data: {password: string , password_new: string}) 
 
 export const ForgetPassword = (data: ForgetPasswordValues) =>{
     return axiosClient.post("/auth/forgot-password" , data)
+}
+
+export const ResetPassword = (data: ResetPasswordValues) =>{
+    return axiosClient.post("/auth/reset-password" , data)
 }
