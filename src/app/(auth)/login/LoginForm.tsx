@@ -147,7 +147,7 @@ export default function LoginForm() {
                 
             </button>
             <p className="text-center text-sm text-white sm:text-left">
-                Forgot password? <Link href="/auth/forget-pass" className="font-semibold text-[#C5D86D]" >Click here</Link>
+                Forgot password? <Link href="/forget-pass" className="font-semibold text-[#C5D86D]" >Click here</Link>
             </p>
             
           </div>

@@ -24,7 +24,7 @@ export default function SideBar() {
     <>
       <div className="flex flex-col items-start gap-3 px-4">
         <div>SideBar</div>
-        <button className="bg-green-500 p-3 rounded-md cursor-pointer" onClick={()=> router.push("/auth/change-pass")}>Change Password</button>
+        <button className="bg-green-500 p-3 rounded-md cursor-pointer" onClick={()=> router.push("/change-pass")}>Change Password</button>
         <button className="bg-sky-500 p-3 rounded-md cursor-pointer" onClick={logout}>Logout</button>
       </div>
     </>
