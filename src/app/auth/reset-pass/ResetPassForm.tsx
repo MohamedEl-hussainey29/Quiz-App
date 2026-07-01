@@ -15,14 +15,7 @@ export default function ResetPassForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<ResetPasswordValues>();
-
-  const password = watch("password");
+  const { register, handleSubmit, formState: { errors }, getValues} = useForm<ResetPasswordValues>();
 
   const onSubmit = async ({email, otp, password}: ResetPasswordValues) => {
     try {
@@ -33,7 +26,7 @@ export default function ResetPassForm() {
         
     } catch (error) {
         if(axios.isAxiosError(error)){
-            toast.error(error.response?.data.message) || 'Something went wrong';
+            toast.error(error.response?.data.message || 'Something went wrong');
         } else{
             toast.error('Something went wrong');
         } 
@@ -51,7 +44,7 @@ export default function ResetPassForm() {
           </label>
           <div className="relative">
             <FaEnvelope
-              className={`absolute left-4 top-1/2 -translate-y-1/2 text-white`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.email ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
@@ -88,18 +81,21 @@ export default function ResetPassForm() {
           </label>
           <div className="relative">
             <FaShieldAlt
-              className={`absolute left-4 top-1/2 -translate-y-1/2 text-white`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.otp ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
               type="text"
               id="otp"
               placeholder="Type your otp"
-              className={`
-                         w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
-                        
-                         text-white
-                     `}
+              className={` w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                            ${
+                              errors.otp
+                                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                                : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                            }
+                            text-white
+                        `}
               {...register("otp", { required: "OTP is required!" })}
             />
           </div>
@@ -115,20 +111,21 @@ export default function ResetPassForm() {
 
           <div className="relative ">
             <FaKey
-              className={`absolute left-4 top-1/2 -translate-y-1/2 text-white`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.password ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Type your password"
-              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all placeholder:text-[#8f8c8c] text-white
-                         border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30
-                         ${
-                           errors.password
-                             ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                             : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-                         }`}
+              className={` w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                            ${
+                              errors.password
+                                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                                : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                            }
+                            text-white
+                        `}
               {...register("password", {
                 required: "Password is required!",
                 minLength: {
@@ -164,23 +161,24 @@ export default function ResetPassForm() {
           </label>
           <div className="relative ">
             <FaKey
-              className={`absolute left-4 top-1/2 -translate-y-1/2 text-white`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 ${errors.confirmPassword ? "text-red-500" : "text-white"}`}
               size={20}
             />
             <input
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm password"
-              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all placeholder:text-[#8f8c8c] text-white border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30
-                         ${
-                           errors.password
-                             ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                             : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-                         }`}
+              className={` w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                            ${
+                              errors.confirmPassword
+                                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                                : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                            }
+                            text-white
+                        `}
               {...register("confirmPassword", {
                 required: "confirmPassword is required!",
-                validate: (value) =>
-                  value === password || "Passwords do not match",
+                validate: (value) => value === getValues("password") || "Passwords do not match"
               })}
             />
             <div className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer z-10">
@@ -204,14 +202,14 @@ export default function ResetPassForm() {
         )}
 
         <button type="submit"
-            className=" my-5 flex w-full items-center justify-center gap-2
+            className=" md:my-5 mt-10 flex w-full items-center justify-center gap-2
              rounded-xl bg-white px-8 py-4 font-bold text-black transition-all duration-300 hover:bg-gray-200
              hover:scale-[1.02] active:scale-95 sm:w-auto cursor-pointer"
                 >
                   {submitLoading ? (
                     <>
                       <div className="h-5 w-5 animate-spin rounded-full border-2 border-black border-t-transparent"></div>
-                      Updating...
+                      Reseting...
                     </>
                   ) : (
                     <>
