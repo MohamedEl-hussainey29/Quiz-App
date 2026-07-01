@@ -25,11 +25,10 @@ axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (typeof window !== "undefined") {
-      const isAuthPage = window.location.pathname.startsWith("/auth");
 
-      if (error.response?.status === 401 && !isAuthPage) {
+      if (error.response?.status === 401 && window.location.pathname != "/login" && window.location.pathname != "/") {
         localStorage.removeItem("token");
-        window.location.href = "/auth/login";
+        window.location.href = "/login";
       }
     }
 

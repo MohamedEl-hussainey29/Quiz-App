@@ -10,12 +10,12 @@ export default function AuthNav() {
 
   const links = [
     {
-      href: "/auth/login",
+      href: "/login",
       label: "Sign In",
       icon: FaUserTie,
     },
     {
-      href: "/auth/register",
+      href: "/register",
       label: "Sign Up",
       icon: FaUserPlus,
     },
