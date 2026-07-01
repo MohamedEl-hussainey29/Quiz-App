@@ -64,14 +64,15 @@ export default function RegisterForm() {
                 id="firstName"
                 type="text"
                 placeholder="Type your first name"
-                className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all placeholder:text-[#8f8c8c] text-white
-               border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30
-               ${
-                 errors.first_name
-                   ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                   : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-               }
-               `}
+                className={`
+                  w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                  ${
+                  errors.first_name
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                      : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                  }
+                  text-white
+              `}
                 {...register("first_name", {
                   required: "First Name is required",
                   minLength: {
@@ -103,13 +104,14 @@ export default function RegisterForm() {
                 id="lastName"
                 type="text"
                 placeholder="Type your last name"
-                className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all placeholder:text-[#8f8c8c] text-white
-               border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30
-              ${
-                errors.last_name
-                  ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                  : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-              }
+                className={`
+                  w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                  ${
+                  errors.last_name
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                      : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                  }
+                  text-white
               `}
                 {...register("last_name", {
                   required: "Last Name is required",
@@ -140,14 +142,15 @@ export default function RegisterForm() {
               id="email"
               type="email"
               placeholder="Type your email"
-              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all placeholder:text-[#8f8c8c] text-white
-                 border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30
-                 ${
-                    errors.email
-                        ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                        : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-                    }
-                 `}
+              className={`
+                  w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                  ${
+                  errors.email
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                      : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                  }
+                  text-white
+              `}
               {...register("email", {
                 required: "email is required",
                 pattern: {
@@ -178,13 +181,15 @@ export default function RegisterForm() {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Type your password"
-              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all placeholder:text-[#8f8c8c] text-white
-                 border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30
-                 ${
-                    errors.password
-                        ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                        : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-                    }`}
+              className={`
+                  w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all
+                  ${
+                  errors.password
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                      : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                  }
+                  text-white
+              `}
               {...register("password", {
                 required: "Password is required!",
                 minLength: {
@@ -228,15 +233,15 @@ export default function RegisterForm() {
             <select
               defaultValue=""
               id="role"
-              className={`w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all  
-             border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30 appearance-none
-             text-white
-             ${
-                errors.role
-                    ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
-                    : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
-                }
-             `}
+              className={`
+                  w-full rounded-xl py-3 pl-12 pr-12 outline-none border-2 transition-all appearance-none
+                  ${
+                  errors.role
+                      ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+                      : "border-white focus:border-[#C5D86D] focus:ring-2 focus:ring-[#C5D86D]/30"
+                  }
+                  text-white
+              `}
               {...register("role", {
                 required: "role is required!",
               })}

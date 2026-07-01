@@ -1,13 +1,12 @@
-import ProtectedRoutes from "../../Shared/components/ProtectedRoutes/ProtectedRoutes";
-import ResetPassForm from "./ResetPassForm";
+import ResetPassForm from "./ResetPassForm"
 
 export default function ResetPassword() {
-  return<>
-  <ProtectedRoutes>
-          <div className="w-full">
-            <h1 className="text-[#C5D86D] text-[25px]">Reset Password</h1>
-            <ResetPassForm/>
-          </div>
-        </ProtectedRoutes>
-  </>
+  return(
+    <>
+      <div className="w-full">
+        <h1 className="text-[#C5D86D] text-[25px]">Reset Password</h1>
+        <ResetPassForm/>
+      </div>
+    </>
+  )
 }
