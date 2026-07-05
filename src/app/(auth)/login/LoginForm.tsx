@@ -137,7 +137,7 @@ export default function LoginForm() {
             >
                 {submitLoading ? 
                     <>
-                        <div className="h-5 w-5 animate-spin rounded-full border-2 border-black border-t-transparent"></div>
+                        <div className="h-5 w-5 animate-spin rounded-full border-2 border-black border-t-transparent"/>
                         Signing In...
                     </> :
                     <>  
