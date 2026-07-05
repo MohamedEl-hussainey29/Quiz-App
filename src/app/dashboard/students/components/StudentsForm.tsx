@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import { StudentsAPI } from "@/src/api";
 import avatar1 from "../../../images/user img (1).png";
@@ -50,7 +51,7 @@ export default function StudentsForm() {
     return (
       <>
       
-        <section className="border border-[#00000033] px-10 rounded-[10px] mt-5 ">
+        <section className="border border-[#00000033] px-8 rounded-[10px] mt-2 mx-2 ">
           
           <h3 className="py-3 text-[20px] font-medium">Students List</h3>
 
@@ -69,7 +70,7 @@ export default function StudentsForm() {
           <div className="grid md:grid-cols-2 gap-3 mt-5 ">
             {loading && <SkeletonUi />}
             {currentStudents.map((student, index) => (
-              <StudentCard student={student} avatar={avatars[index % avatars.length]} 
+              <StudentCard key={student._id} student={student} avatar={avatars[index % avatars.length]} 
               onView={() => {
                 setSelectedStudent(student);
                 setSelectedAvatar(avatars[index % avatars.length]);
