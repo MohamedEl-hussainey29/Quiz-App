@@ -14,6 +14,7 @@ import avatar3 from "../../../images/user img (3).png";
 import avatar4 from "../../../images/user img.png";
 import { StaticImageData } from "next/image";
 import { ViewDetailsDialog } from "../../students/components/ViewDetailsDialog"
+import NoData from "@/src/app/Shared/components/NoData/NoData"
 
 export default function TopStudentsCard() {
     const [students , setStudents] = useState<Student[]>([]);
@@ -60,18 +61,23 @@ export default function TopStudentsCard() {
           </CardHeader>
 
           <CardContent>
-            {loading && <SkeletonUI numElements={3}/>}
-            {students.slice(0,5).map((student , index) => {
-                return(
-                    <div className="mb-4" key={student._id}>
-                        <StudentCard student={student} avatar={avatars[index % avatars.length]} 
-                            onView={() => {
-                            setSelectedStudent(student);
-                            setSelectedAvatar(avatars[index % avatars.length]);
-                            setIsDialogOpen(true);
-                        }} />
-                    </div>
-                )})}
+            {loading ? (
+              <SkeletonUI numElements={2} />
+            ) : students.length > 0 ? (
+                  students.slice(0,5).map((student , index) => {
+                    return(
+                        <div className="mb-4" key={student._id}>
+                            <StudentCard student={student} avatar={avatars[index % avatars.length]} 
+                                onView={() => {
+                                setSelectedStudent(student);
+                                setSelectedAvatar(avatars[index % avatars.length]);
+                                setIsDialogOpen(true);
+                            }} />
+                        </div>
+                    )})
+                    ) : (
+                      <NoData item="Quizzes" />
+                  )}
           </CardContent>
         </Card>
         <ViewDetailsDialog student={selectedStudent} avatar={selectedAvatar!} 
