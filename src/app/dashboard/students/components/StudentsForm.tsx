@@ -10,7 +10,7 @@ import { Student } from "@/src/types/students";
 import Pagination from "@/src/app/Shared/components/Pagination/Pagination";
 import { toast } from "react-toastify";
 import StudentCard from "@/src/app/Shared/components/StudentCard/StudentCard";
-import SkeletonUi from "./Skeleton";
+import SkeletonUI from "./Skeleton";
 import { ViewDetailsDialog } from "./ViewDetailsDialog";
 import { StaticImageData } from "next/image";
 
@@ -68,7 +68,7 @@ export default function StudentsForm() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-3 mt-5 ">
-            {loading && <SkeletonUi />}
+            {loading && <SkeletonUI numElements={10}/>}
             {currentStudents.map((student, index) => (
               <StudentCard key={student._id} student={student} avatar={avatars[index % avatars.length]} 
               onView={() => {
