@@ -3,12 +3,13 @@
 
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { AuthContext } from "@/src/context/AuthContext"
-import { AlarmClockPlus, Mail, Bell, ChevronDown, LogOut } from "lucide-react"
+import { AlarmClockPlus, Mail, Bell, ChevronDown, LogOut, RotateCcwKey } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useContext, useState } from "react"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
+import Link from "next/link"
 
 function IconBadge({
   icon: Icon,
@@ -132,6 +133,13 @@ export default function NavBar() {
             </div>
 
             <div className="border-t border-gray-100 p-2">
+              <Link
+                href="/change-pass"
+                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-[#C5D86D] hover:bg-red-50 transition-colors cursor-pointer"
+              >
+                <RotateCcwKey className="h-4 w-4"/>
+                Change Password
+              </Link>
               <button
                 onClick={() => setLogoutOpen(true)}
                 className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
