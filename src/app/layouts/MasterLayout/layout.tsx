@@ -6,12 +6,12 @@ import NavBar from './../../Shared/components/NavBar/NavBar';
 export default function MasterLayout({ children }: any) {
   return (
     <SidebarProvider>
-      <div className="flex overflow-hidden w-full">
+      <div className="flex md:overflow-hidden w-full h-screen">
         <SideBar />
 
         <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 70px)' }}>
           <NavBar/>
-          <main className="grow overflow-auto pl-2">
+          <main className="grow overflow-hiddden pl-2">
             {children}
           </main>
         </div>

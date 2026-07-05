@@ -19,7 +19,9 @@ export default function StudentsForm() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [selectedAvatar, setSelectedAvatar] = useState<StaticImageData | null>(null);
+  const [selectedAvatar, setSelectedAvatar] = useState<StaticImageData | null>(
+    null,
+  );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const itemsPerPage = 10;
@@ -39,33 +41,33 @@ export default function StudentsForm() {
       if (error instanceof Error) {
         toast.error(error.message);
       }
-    }finally {
+    } finally {
       setLoading(false);
     }
-  }
+  };
 
-    useEffect(() => {
-      getAllStudents();
-    }, []);
+  useEffect(() => {
+    getAllStudents();
+  }, []);
 
-    return (
-      <>
-      
-        <section className="border border-[#00000033] px-8 rounded-[10px] mt-2 mx-2 ">
-          
-          <h3 className="py-3 text-[20px] font-medium">Students List</h3>
 
-          <div className="flex gap-3">
-            <button className="flex items-center gap-1 justify-center border border-[#00000033] rounded-full py-1 px-4 font-medium  ">
-              Group 1
-            </button>
-            <button className="flex items-center gap-1 justify-center border border-[#00000033] rounded-full py-1 px-4 font-medium  ">
-              Group 2
-            </button>
-            <button className="flex items-center gap-1 justify-center border border-[#00000033] rounded-full py-1 px-4 font-medium  ">
-              Group 3
-            </button>
-          </div>
+  return (
+    <>
+      <section className="border border-[#00000033] px-10 rounded-[10px] mt-5 overflow-y-auto md:mx-5">
+        <h3 className="py-3 text-[20px] font-medium">Students List</h3>
+
+        <div className="flex gap-3">
+          <button className="flex items-center gap-1 justify-center border border-[#00000033] rounded-full py-1 px-4 font-medium  ">
+            Group 1
+          </button>
+          <button className="flex items-center gap-1 justify-center border border-[#00000033] rounded-full py-1 px-4 font-medium  ">
+            Group 2
+          </button>
+          <button className="flex items-center gap-1 justify-center border border-[#00000033] rounded-full py-1 px-4 font-medium  ">
+            Group 3
+          </button>
+        </div>
+
 
           <div className="grid md:grid-cols-2 gap-3 mt-5 ">
             {loading && <SkeletonUI numElements={10}/>}
@@ -75,23 +77,25 @@ export default function StudentsForm() {
                 setSelectedStudent(student);
                 setSelectedAvatar(avatars[index % avatars.length]);
                 setIsDialogOpen(true);
-              }} />
-            ))}
-          </div>
+              }}
+            />
+          ))}
+        </div>
 
-          <ViewDetailsDialog student={selectedStudent} avatar={selectedAvatar!} 
-          open={isDialogOpen} 
+        <ViewDetailsDialog
+          student={selectedStudent}
+          avatar={selectedAvatar!}
+          open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
-           />
-          
+        />
+       
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
           />
-        </section>
-        
-      </>
-    );
-  };
-
+       
+      </section>
+    </>
+  );
+}
