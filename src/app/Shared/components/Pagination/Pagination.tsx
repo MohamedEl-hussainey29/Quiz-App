@@ -11,7 +11,7 @@ export default function Pagination({
 
   const maxVisiblePages = 5;
   let startPage = Math.max(currentPage - 2, 1);
-  let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+  const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
 
   if (endPage - startPage < maxVisiblePages - 1) {
     startPage = Math.max(endPage - maxVisiblePages + 1, 1);
