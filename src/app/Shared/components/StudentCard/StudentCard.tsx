@@ -1,12 +1,8 @@
-import { Student, StudentCardProps } from "@/src/types/students";
-import Image, { StaticImageData } from "next/image";
+import { StudentCardProps } from "@/src/types/students";
+import Image from "next/image";
 import { FaArrowCircleRight } from "react-icons/fa";
 
-export default function StudentCard({
-  student,
-  avatar,
-  onView
-}: StudentCardProps) {
+export default function StudentCard({student, avatar, onView}: StudentCardProps) {
 
   return (
     <div
@@ -25,7 +21,7 @@ export default function StudentCard({
           {student.first_name} {student.last_name}
         </h3>
         <p className="text-[13px] text-[#0D1321CC]">
-          {student.group?.name ?? "no group"}
+          <span className="text-[#C5D86D]">Group Name: </span>{student.group?.name ?? "no group"}
         </p>
       </div>
       <button
