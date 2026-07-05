@@ -4,6 +4,7 @@ import { MoveRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import quizImg1 from "../../../images/Quiz img-1.svg"
+import quizImg2 from "../../../images/Quiz img-2.svg"
 import { useEffect, useState } from "react"
 import { QuizzesAPI } from "@/src/api"
 import { toast } from "react-toastify"
@@ -13,6 +14,7 @@ import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 export default function QuizzesCard() {
     const [quizzes , setQuizzes] = useState<Quiz[]>([]);
     const [loading , setLoading] = useState(false);
+    const quizImgs = [quizImg1 , quizImg2]
 
     useEffect(() => {
         const getQuizzes = async () => {
@@ -34,7 +36,7 @@ export default function QuizzesCard() {
 
   return (
     <>
-        <Card className="w-full max-w-lg">
+        <Card className="w-full">
           <CardHeader className="flex-wrap gap-2">
             <CardTitle className="text-lg sm:text-xl font-bold">
               Upcoming Quizzes
@@ -52,11 +54,9 @@ export default function QuizzesCard() {
 
           <CardContent>
             {loading && <SkeletonUI numElements={2}/>}
-            {quizzes.map((quiz) => {
+            {quizzes.map((quiz , index) => {
                 const date = new Date(quiz.schadule);
-
                 const formattedDate = date.toLocaleDateString("en-GB");
-
                 const formattedTime = date.toLocaleTimeString("en-US", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -67,7 +67,7 @@ export default function QuizzesCard() {
                     <div key={quiz?._id} className="flex flex-col sm:flex-row gap-3 sm:gap-4 border rounded-xl p-2 sm:pr-2 sm:p-0 mb-4">
                         <div className="shrink-0 rounded-xl overflow-hidden bg-[#FCE8D5] w-full h-32 sm:w-24 sm:h-24 flex items-center justify-center">
                             <Image
-                            src={quizImg1}
+                            src={quizImgs[index % quizImgs.length]}
                             alt="Quiz Image"
                             className="w-full h-full object-contain sm:object-contain"
                             />

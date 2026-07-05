@@ -41,7 +41,7 @@ export default function NavBar() {
   const [logoutOpen, setLogoutOpen] = useState(false)
 
   return (
-    <header className="flex h-16 items-center justify-between border-b-2 bg-white px-3 sm:h-17.5 sm:px-4">
+    <header className="flex h-16 items-center justify-between border-b-2 bg-white px-3 sm:h-17.5 sm:px-4 py-2">
       <div className="flex min-w-0 items-center gap-2 sm:gap-4">
         <SidebarTrigger className="[&_svg]:size-6! cursor-pointer shrink-0" />
         <h1 className="truncate text-base font-semibold text-black capitalize sm:text-xl">
