@@ -29,7 +29,7 @@ export default function Pagination({
         <>
           <button
             onClick={() => setCurrentPage(1)}
-            className={`size-6 ${
+            className={`size-6 cursor-pointer ${
               currentPage === 1 ? "bg-[#FFEDDF] text-black" : ""
             }`}
           >
@@ -47,7 +47,7 @@ export default function Pagination({
           <button
             key={page}
             onClick={() => setCurrentPage(page)}
-            className={`size-6 ${
+            className={`size-6 cursor-pointer ${
               currentPage === page
                 ? " bg-[#FFEDDF] text-black"
                 : ""
@@ -64,7 +64,7 @@ export default function Pagination({
 
           <button
             onClick={() => setCurrentPage(totalPages)}
-            className={`size-6 ${
+            className={`size-6 cursor-pointer ${
               currentPage === totalPages
                 ? "bg-[#FFEDDF] text-black"
                 : ""
@@ -77,7 +77,7 @@ export default function Pagination({
 
        <button disabled={currentPage === totalPages} 
        onClick={() => setCurrentPage(currentPage + 1)} 
-       className="size-10 disabled:opacity-40 disabled:cursor-not-allowed ">
+       className="size-10 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
         <FaChevronRight className="mx-auto" />
        </button>
      </div>
