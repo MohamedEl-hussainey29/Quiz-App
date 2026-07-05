@@ -1,16 +1,14 @@
 "use client"
 
 import {Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar} from "@/components/ui/sidebar"
-import { AuthAPI } from "@/src/api"
-import { AuthContext } from "@/src/context/AuthContext"
 import { Home, Boxes, Users, ClipboardClock, BarChart3, LogOut } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { useContext } from "react"
-import { toast } from "react-toastify"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import AppLogo from "../../../images/Logo-black.svg"
+import { useContext } from "react"
+import { AuthContext } from "@/src/context/AuthContext"
 
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -35,30 +33,17 @@ function IconChip({ icon: Icon, active }: { icon: React.ElementType; active: boo
 
 export default function SideBar() {
   const pathname = usePathname()
-  const router = useRouter()
-  const authContext = useContext(AuthContext)
   const { isMobile, setOpenMobile } = useSidebar()
+  const authContext = useContext(AuthContext)
 
   const closeMobileSidebar = () => {
     if (isMobile) setOpenMobile(false)
   }
 
-  const logout = async () => {
-    try {
-      const response = await AuthAPI.Logout()
-      localStorage.removeItem("token")
-      authContext?.setUserData(null)
-      router.push("/")
-      toast.success(response?.data?.message)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader className="py-5">
-        <div className="flex justify-center">
+        <div className="flex justify-center border-b-2 pb-3">
           <Image src={AppLogo} alt="logo" className="h-9 w-auto" />
         </div>
       </SidebarHeader>
@@ -108,7 +93,7 @@ export default function SideBar() {
       <SidebarFooter className="gap-1 border-t py-4">
         <SidebarMenuItem>
           <SidebarMenuButton
-            render={<button onClick={logout} className="cursor-pointer" />}
+            render={<button onClick={authContext?.logout} className="cursor-pointer" />}
             className={cn(
               "h-16 gap-3 rounded-none px-3 text-gray-600 hover:bg-[#FFF6EE]/60",
               "group-data-[collapsible=icon]:h-16! group-data-[collapsible=icon]:w-full! group-data-[collapsible=icon]:p-0!",

@@ -10,7 +10,7 @@ export default function MasterLayout({ children }: any) {
         <SideBar />
 
         <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 70px)' }}>
-          <NavBar />
+          <NavBar/>
           <main className="grow overflow-auto pl-2">
             {children}
           </main>

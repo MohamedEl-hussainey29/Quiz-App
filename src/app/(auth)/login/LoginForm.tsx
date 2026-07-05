@@ -27,8 +27,9 @@ export default function LoginForm() {
         try {
             setSubmitLoading(true);
             const response = await AuthAPI.Login(data);
-            localStorage.setItem("token" , response?.data?.data?.accessToken)
-            saveUserData();
+            const { accessToken, profile } = response.data.data;
+            localStorage.setItem("token" , accessToken)
+            saveUserData(profile);
             router.push("/dashboard")
             toast.success(response?.data?.message)
         } catch (error) {

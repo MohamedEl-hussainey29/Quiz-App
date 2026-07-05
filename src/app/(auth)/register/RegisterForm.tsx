@@ -34,7 +34,7 @@ export default function RegisterForm() {
       setSubmitLoading(true);
       const response = await AuthAPI.Register(data);
       toast.success(response.data.message);
-      router.push('/auth/login');
+      router.push('/login');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 toast.error(error.response?.data?.message || "Something went wrong");

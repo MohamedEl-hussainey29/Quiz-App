@@ -28,3 +28,12 @@ export interface ResetPasswordValues{
     password: string;
     confirmPassword?: string;
 }
+
+export interface User{
+    _id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    status: string;
+    role: string;
+}
