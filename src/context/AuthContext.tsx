@@ -1,57 +1,69 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { jwtDecode } from "jwt-decode";
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useEffect, useState, ReactNode } from "react";
+import { User } from "../types/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify"
+import { AuthAPI } from "../api";
 
-export interface User {
-  _id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  status: string;
-  role: string;
-}
 
-interface AuthContextInterface {
+
+export interface AuthContextInterface {
   userData: User | null;
   setUserData: React.Dispatch<React.SetStateAction<User | null>>;
   loading: boolean;
   isAuthenticated: boolean;
-  saveUserData: () => void;
-}
-
-interface AuthContextProviderProps {
-  children: ReactNode;
+  saveUserData: (user: User | null) => void;
+  logout: ()=> void;
 }
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
-export default function AuthContextProvider({children}: AuthContextProviderProps) {
+export default function AuthContextProvider({children}: {children: ReactNode}) {
   const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter()
 
   const isAuthenticated = !!userData;
 
-  const saveUserData = () => {
-    const encodedToken = localStorage.getItem("token");
+  const saveUserData = (user: User | null) => {
+    setUserData(user);
 
-    if (encodedToken) {
-      const decodedToken = jwtDecode<User>(encodedToken);
-      setUserData(decodedToken);
+    if (user) {
+      localStorage.setItem("profile", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("profile");
     }
-    setLoading(false);
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      saveUserData();
-    } else {
-      setLoading(false);
+  const logout = async () => {
+      try {
+        const response = await AuthAPI.Logout()
+        localStorage.removeItem("token")
+        localStorage.removeItem("profile")
+        setUserData(null)
+        router.replace("/")
+        toast.success(response?.data?.message)
+      } catch (error) {
+        console.log(error)
+      }
     }
+
+
+  useEffect(() => {
+    const storedProfile = localStorage.getItem("profile");
+
+    if (storedProfile) {
+      setUserData(JSON.parse(storedProfile));
+    }
+
+    setLoading(false);
   }, []);
 
   return (
-    <AuthContext.Provider value={{userData,setUserData,loading,isAuthenticated,saveUserData}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{userData, setUserData, loading, isAuthenticated, saveUserData, logout}}>
+      {children}
+    </AuthContext.Provider>
   );
 }
