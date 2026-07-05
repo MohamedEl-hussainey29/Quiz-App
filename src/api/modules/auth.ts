@@ -1,8 +1,6 @@
 import { ForgetPasswordValues, LoginFormValues, RegisterFormValues, ResetPasswordValues } from "@/src/types/auth"
 import axiosClient from "../axiosClient"
 
-
-
 export const Login = (data: LoginFormValues) =>{
     return axiosClient.post("/auth/login" , data)
 }
