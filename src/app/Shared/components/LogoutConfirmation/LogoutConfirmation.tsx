@@ -35,7 +35,7 @@ export function LogoutConfirmation({
             className="w-[calc(100vw-2rem)] max-w-md overflow-hidden rounded-2xl border-0 p-0 shadow-xl"
         >
             {/* Header */}
-            <div className="flex items-center justify-between border-b-2 shadow-md">
+            <div className="flex items-center justify-between shadow-xl">
                 <h2 className="px-4 py-4 text-lg font-bold text-black sm:px-6 sm:text-xl">
                     Logout
                 </h2>
