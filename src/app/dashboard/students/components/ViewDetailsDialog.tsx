@@ -1,8 +1,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { StudentDetailsProps } from "@/src/types/students";
@@ -19,11 +17,14 @@ export function ViewDetailsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange} >
-      <DialogContent className="[&>button]:hidden">
+      <DialogContent className="p-0 gap-0 overflow-hidden [&>button]:hidden">
         
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-bold text-black sm:px-6 sm:text-xl">Student Details</h3>
-
+        {/* Header */}
+        <div className="flex items-center justify-between shadow-xl">
+            <h2 className=" py-4 px-4 text-lg font-bold text-black sm:px-6 sm:text-xl">
+              Student Details
+            </h2>
+            <div className="flex shrink-0">
               <button
                 onClick={() => onOpenChange(false)}
                 className="flex h-16 w-14 items-center justify-center border-l-3 transition-colors hover:bg-gray-50 disabled:opacity-50 cursor-pointer"
@@ -31,8 +32,9 @@ export function ViewDetailsDialog({
                 <X className="h-5 w-5" />
               </button>
             </div>
+        </div>
          
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 p-4">
           <Image
             src={avatar}
             alt={student?.first_name}

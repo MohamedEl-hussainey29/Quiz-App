@@ -53,7 +53,7 @@ export default function StudentsForm() {
 
   return (
     <>
-      <section className="border border-[#00000033] px-10 rounded-[10px] mt-5 overflow-y-auto md:mx-5">
+      <section className="border border-[#00000033] px-10 rounded-[10px] my-5 overflow-y-auto md:mx-5">
         <h3 className="py-3 text-[20px] font-medium">Students List</h3>
 
         <div className="flex gap-3">
