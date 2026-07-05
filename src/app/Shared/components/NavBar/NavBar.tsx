@@ -5,9 +5,10 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { AuthContext } from "@/src/context/AuthContext"
 import { AlarmClockPlus, Mail, Bell, ChevronDown, LogOut } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
 
 function IconBadge({
   icon: Icon,
@@ -36,6 +37,7 @@ export default function NavBar() {
   const { userData, logout }: any = useContext(AuthContext)
   const pathname = usePathname()
   const pageName = pathname.split("/").filter(Boolean).pop()
+  const [logoutOpen, setLogoutOpen] = useState(false)
 
   return (
     <header className="flex h-16 items-center justify-between border-b-2 bg-white px-3 sm:h-17.5 sm:px-4">
@@ -131,7 +133,7 @@ export default function NavBar() {
 
             <div className="border-t border-gray-100 p-2">
               <button
-                onClick={logout}
+                onClick={() => setLogoutOpen(true)}
                 className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
               >
                 <LogOut className="h-4 w-4" />
@@ -141,6 +143,11 @@ export default function NavBar() {
           </PopoverContent>
         </Popover>
       </div>
+      <LogoutConfirmation
+        open={logoutOpen}
+        onOpenChange={setLogoutOpen}
+        onConfirm={logout}
+      />
     </header>
   )
 }

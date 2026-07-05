@@ -7,8 +7,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import AppLogo from "../../../images/Logo-black.svg"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "@/src/context/AuthContext"
+import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
 
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -35,6 +36,7 @@ export default function SideBar() {
   const pathname = usePathname()
   const { isMobile, setOpenMobile } = useSidebar()
   const authContext = useContext(AuthContext)
+  const [logoutOpen, setLogoutOpen] = useState(false)
 
   const closeMobileSidebar = () => {
     if (isMobile) setOpenMobile(false)
@@ -93,7 +95,7 @@ export default function SideBar() {
       <SidebarFooter className="gap-1 border-t py-4">
         <SidebarMenuItem>
           <SidebarMenuButton
-            render={<button onClick={authContext?.logout} className="cursor-pointer" />}
+            render={<button onClick={() => setLogoutOpen(true)} className="cursor-pointer" />}
             className={cn(
               "h-16 gap-3 rounded-none px-3 text-gray-600 hover:bg-[#FFF6EE]/60",
               "group-data-[collapsible=icon]:h-16! group-data-[collapsible=icon]:w-full! group-data-[collapsible=icon]:p-0!",
@@ -107,6 +109,11 @@ export default function SideBar() {
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarFooter>
+      <LogoutConfirmation
+        open={logoutOpen}
+        onOpenChange={setLogoutOpen}
+        onConfirm={() => authContext?.logout()}
+      />
     </Sidebar>
   )
 }
