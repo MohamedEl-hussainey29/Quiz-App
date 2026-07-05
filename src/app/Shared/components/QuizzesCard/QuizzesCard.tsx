@@ -10,6 +10,7 @@ import { QuizzesAPI } from "@/src/api"
 import { toast } from "react-toastify"
 import { Quiz } from "@/src/types/quizzes"
 import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
+import NoData from "../NoData/NoData"
 
 export default function QuizzesCard() {
     const [quizzes , setQuizzes] = useState<Quiz[]>([]);
@@ -37,67 +38,73 @@ export default function QuizzesCard() {
   return (
     <>
         <Card className="w-full">
-          <CardHeader className="flex-wrap gap-2">
-            <CardTitle className="text-lg sm:text-xl font-bold">
-              Upcoming Quizzes
-            </CardTitle>
-            <CardAction>
-              <Link
-                href="/dashboard/quizzes"
-                className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
-              >
-                <span>Quiz directory</span>
-                <MoveRight className="h-5 w-5 sm:h-6 sm:w-6 text-[#C5D86D] shrink-0" />
-              </Link>
-            </CardAction>
-          </CardHeader>
+            <CardHeader className="flex-wrap gap-2">
+                <CardTitle className="text-lg sm:text-xl font-bold">
+                Upcoming Quizzes
+                </CardTitle>
+                <CardAction>
+                <Link
+                    href="/dashboard/quizzes"
+                    className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
+                >
+                    <span>Quiz directory</span>
+                    <MoveRight className="h-5 w-5 sm:h-6 sm:w-6 text-[#C5D86D] shrink-0" />
+                </Link>
+                </CardAction>
+            </CardHeader>
+            <CardContent>
+                {loading ? (
+                    <SkeletonUI numElements={2} />
+                ) : quizzes.length > 0 ? (
+                    quizzes.map((quiz, index) => {
+                    const date = new Date(quiz.schadule);
+                    const formattedDate = date.toLocaleDateString("en-GB");
+                    const formattedTime = date.toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                    });
 
-          <CardContent>
-            {loading && <SkeletonUI numElements={2}/>}
-            {quizzes.map((quiz , index) => {
-                const date = new Date(quiz.schadule);
-                const formattedDate = date.toLocaleDateString("en-GB");
-                const formattedTime = date.toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                });
-            
-                return(
-                    <div key={quiz?._id} className="flex flex-col sm:flex-row gap-3 sm:gap-4 border rounded-xl p-2 sm:pr-2 sm:p-0 mb-4">
-                        <div className="shrink-0 rounded-xl overflow-hidden bg-[#FCE8D5] w-full h-32 sm:w-24 sm:h-24 flex items-center justify-center">
-                            <Image
-                            src={quizImgs[index % quizImgs.length]}
-                            alt="Quiz Image"
-                            className="w-full h-full object-contain sm:object-contain"
-                            />
-                        </div>
+                    return (
+                        <div key={quiz._id} className="flex flex-col sm:flex-row gap-3 sm:gap-4 border rounded-xl p-2 sm:pr-2 sm:p-0 mb-4">
+                            <div className="shrink-0 rounded-xl overflow-hidden bg-[#FCE8D5] w-full h-32 sm:w-24 sm:h-24 flex items-center justify-center">
+                                <Image
+                                src={quizImgs[index % quizImgs.length]}
+                                alt="Quiz Image"
+                                className="w-full h-full object-contain"
+                                />
+                            </div>
 
-                        <div className="flex flex-col justify-center flex-1 gap-1 min-w-0">
-                            <h3 className="font-bold text-sm sm:text-base leading-tight wrap-break-word">
-                                {quiz?.title}
-                            </h3>
-                            <span className="text-xs sm:text-sm text-muted-foreground">
+                            <div className="flex flex-col justify-center flex-1 gap-1 min-w-0">
+                                <h3 className="font-bold text-sm sm:text-base leading-tight wrap-break-word">
+                                {quiz.title}
+                                </h3>
+
+                                <span className="text-xs sm:text-sm text-muted-foreground">
                                 {formattedDate} | {formattedTime}
-                            </span>
+                                </span>
 
-                            <div className="flex justify-between items-center gap-2 mt-2">
+                                <div className="flex justify-between items-center gap-2 mt-2">
                                 <p className="text-xs sm:text-sm font-semibold">
-                                    No. of student’s enrolled: {quiz?.participants}
+                                    No. of student’s enrolled: {quiz.participants}
                                 </p>
+
                                 <Link
-                                    href={`/dashboard/quizzes/${quiz?._id}`}
+                                    href={`/dashboard/quizzes/${quiz._id}`}
                                     className="flex items-center gap-1 shrink-0"
                                 >
                                     <span className="font-semibold text-sm">Open</span>
-                                    <MoveRight className="h-6 w-6 bg-[#C5D86D] text-white rounded-3xl p-1 shrink-0" />
+                                    <MoveRight className="h-6 w-6 rounded-full bg-[#C5D86D] p-1 text-white shrink-0" />
                                 </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )})}
-            
-          </CardContent>
+                    );
+                    })
+                ) : (
+                    <NoData item="Quizzes" />
+                )}
+            </CardContent>
         </Card>
     </>
   )
