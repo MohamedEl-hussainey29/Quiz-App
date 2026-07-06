@@ -21,7 +21,7 @@ export default function Pagination({
      <div className='flex items-center justify-center gap-2 mt-5'>
        <button disabled={currentPage === 1} 
        onClick={() => setCurrentPage(currentPage - 1)} 
-       className="size-10 disabled:opacity-40 disabled:cursor-not-allowed ">
+       className="size-10 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
         <FaChevronLeft className="mx-auto"  />
        </button>
 
