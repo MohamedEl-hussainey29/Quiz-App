@@ -1,4 +1,4 @@
-import QuizzesCard from "../../../Shared/components/QuizzesCard/QuizzesCard";
+import UpcommingQuizzesCard from "@/src/app/Shared/components/QuizzesCard/UpcommingQuizzesCard";
 import TopStudentsCard from "../TopStudentsCard/TopStudentsCard";
 
 export default function InstructorDashboard() {
@@ -6,7 +6,7 @@ export default function InstructorDashboard() {
     <div className="my-4 px-5">
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         <div className="lg:col-span-3">
-          <QuizzesCard />
+          <UpcommingQuizzesCard/>
         </div>
 
         <div className="lg:col-span-2">

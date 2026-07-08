@@ -26,7 +26,7 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
   const rows = data ?? []
 
   return (
-    <div className="hidden sm:block rounded-lg overflow-hidden">
+    <div className="rounded-lg overflow-hidden">
       <div className="overflow-y-auto overflow-x-auto" style={{ maxHeight }}>
         <Table className="border-separate border-spacing-y-2 table-fixed w-full">
           <TableHeader>
@@ -42,19 +42,19 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
                   {col.header}
                 </TableHead>
               ))}
-              <TableHead
-                className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 max-w-30 ${
-                  !renderActions ? "" : "rounded-r-md"
-                }`}
-              >
-                {renderActions ? "Actions" : ""}
-              </TableHead>
+              {renderActions && (
+                <TableHead
+                  className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 max-w-30 rounded-r-md`}
+                >
+                  Actions
+                </TableHead>
+              )}
             </TableRow>
           </TableHeader>
 
           <TableBody>
             {loading ? (
-              Array.from({ length: 10 }).map((_, rowIndex) => (
+              Array.from({ length: 5 }).map((_, rowIndex) => (
                 <TableRow key={rowIndex}>
                   {columns.map((_, colIndex) => (
                     <TableCell key={colIndex}>

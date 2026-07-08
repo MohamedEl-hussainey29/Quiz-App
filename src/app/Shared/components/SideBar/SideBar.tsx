@@ -1,7 +1,7 @@
 "use client"
 
 import {Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar} from "@/components/ui/sidebar"
-import { Home, Boxes, Users, ClipboardClock, BarChart3, LogOut, BookCheck } from "lucide-react"
+import { Home, Boxes, Users, ClipboardClock, BarChart3, LogOut, Landmark } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -14,7 +14,7 @@ import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Quizzes", url: "/dashboard/quizzes", icon: ClipboardClock },
-  { title: "Questions", url: "/dashboard/questions", icon: BookCheck },
+  { title: "Questions", url: "/dashboard/questions", icon: Landmark },
   { title: "Groups", url: "/dashboard/groups", icon: Boxes },
   { title: "Students", url: "/dashboard/students", icon: Users },
   { title: "Results", url: "/dashboard/results", icon: BarChart3 },
