@@ -5,9 +5,9 @@ import { FaCheckCircle, FaEnvelope } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 import { AuthAPI } from "@/src/api";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "sonner";
 
 export default function ForgetPassForm() {
   const router = useRouter();
@@ -22,8 +22,8 @@ export default function ForgetPassForm() {
     try {
       setSubmitLoading(true);
       const response = await AuthAPI.ForgetPassword(data);
-      toast.success(response.data.message);
       router.push("/reset-pass");
+      toast.success(response.data.message);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "Something went wrong");

@@ -4,8 +4,8 @@
 import { createContext, useEffect, useState, ReactNode } from "react";
 import { User } from "../types/auth";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify"
 import { AuthAPI } from "../api";
+import { toast } from "sonner";
 
 
 

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { FaCheckCircle, FaEye, FaEyeSlash, FaKey } from 'react-icons/fa'
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 export default function ChnagePassForm() {
     const router = useRouter();

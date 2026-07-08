@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { FaCheckCircle, FaEnvelope, FaEye, FaKey, FaShieldAlt } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function ResetPassForm() {
   const router = useRouter();

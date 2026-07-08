@@ -13,9 +13,9 @@ import { BsEyeSlashFill } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { RegisterFormValues } from "@/src/types/auth";
 import { AuthAPI } from "@/src/api";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "sonner";
 
 
 export default function RegisterForm() {

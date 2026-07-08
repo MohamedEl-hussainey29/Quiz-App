@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { FaCheckCircle, FaEnvelope, FaEye, FaEyeSlash, FaKey } from 'react-icons/fa'
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 export default function LoginForm() {
     const router = useRouter();
