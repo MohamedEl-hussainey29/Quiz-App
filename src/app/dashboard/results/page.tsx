@@ -1,6 +1,9 @@
+import ResultsTable from "./components/ResultsTable";
 
 export default function ResultsList() {
   return (
-    <div>ResultsList</div>
+    <>
+      <ResultsTable/>
+    </>
   )
 }
