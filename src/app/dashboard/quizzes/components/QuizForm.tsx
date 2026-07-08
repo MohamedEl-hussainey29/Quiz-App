@@ -8,7 +8,6 @@ import { ReactNode, useState } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 
 interface QuizFormProps {
-  mode: string
   register: UseFormRegister<QuizFormValues>
   control: Control<QuizFormValues>
   errors: FieldErrors<QuizFormValues>
@@ -133,7 +132,7 @@ function ScheduleInput({ value, onChange }: { value: string; onChange: (v: strin
   );
 }
 
-export default function QuizForm({ mode, register, control, errors, groups }: QuizFormProps) {
+export default function QuizForm({ register, control, errors, groups }: QuizFormProps) {
   
 
   return (
