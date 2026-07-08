@@ -20,3 +20,7 @@ export const UpdateQuestion = (id: string, data: QuestionFormValues)=>{
 export const DeleteQuestion = (id: string)=>{
     return axiosClient.delete(`/question/${id}`);
 }
+
+export const SearchQuestions = (params: { type?: string; difficulty?: string }) =>{
+  return axiosClient.post("/question/search", null, { params });
+}

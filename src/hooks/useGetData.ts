@@ -12,8 +12,6 @@ export default function useGetData<T>(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Tracks the "current" request so an old, slower request
-  // can't overwrite a newer one's result (race condition guard)
   const requestIdRef = useRef(0);
 
   const getData = async () => {
@@ -26,7 +24,6 @@ export default function useGetData<T>(
     try {
       const response = await apiFunction();
 
-      // Only apply the result if this is still the latest request
       if (currentRequestId === requestIdRef.current) {
         setData(response.data);
       }

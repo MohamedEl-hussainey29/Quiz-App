@@ -11,9 +11,11 @@ import useGetData from "@/src/hooks/useGetData";
 import { usePagination } from "@/src/hooks/usePagination";
 import { Question } from "@/src/types/questions";
 import { CirclePlus, Eye, SquarePen, Trash2, MoreVertical } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import QuestionData from "./QuestionData";
+import QuestionFilters, { QuestionFilterValues } from "./QuestionFilters";
+import { AxiosResponse } from "axios";
 
 
 export default function QuestionsBank() {
@@ -22,6 +24,7 @@ export default function QuestionsBank() {
     const [dataOpen, setDataOpen] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
     const [mode, setMode] = useState("");
+    const [filters, setFilters] = useState<QuestionFilterValues>({ type: "", difficulty: "" });
 
     const columns: ColumnDef<Question>[] = [
         { header: "Question Title", accessor: "title" },
@@ -30,9 +33,21 @@ export default function QuestionsBank() {
         { header: "Category", accessor: "type" },
     ]
 
+    const hasActiveFilters = Boolean(filters.type || filters.difficulty)
+
+    const fetchQuestions = useCallback((): Promise<AxiosResponse<Question[]>> => {
+        if (hasActiveFilters) {
+            return QuestAPI.SearchQuestions({
+                type: filters.type || undefined,
+                difficulty: filters.difficulty || undefined,
+            });
+        }
+        return QuestAPI.GetAllQuestions();
+    }, [hasActiveFilters, filters])
+
     const { data: questions, isLoading: dataLoading, refetch } = useGetData<Question[]>(
-        QuestAPI.GetAllQuestions
-    )
+        fetchQuestions, [filters]
+    );
 
     const { currentRows, currentPage, setCurrentPage, totalPages } = usePagination(questions, 10)
 
@@ -99,6 +114,10 @@ export default function QuestionsBank() {
                     <CirclePlus className="h-6 w-6 sm:h-8 sm:w-8 bg-black text-white rounded-2xl" />
                     <span className="hidden sm:inline">Add Question</span>
                 </button>
+            </div>
+
+            <div className="mt-4">
+                <QuestionFilters value={filters} onChange={setFilters} />
             </div>
 
             <div className="mt-4 min-w-0 w-full max-w-full flex-1">
