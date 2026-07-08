@@ -106,7 +106,7 @@ export default function QuestionsBank() {
     <>
         <div className="py-3 px-5 my-4 mx-2 border-2 rounded-xl h-full">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Bank Of Questions ({questions?.length})</h2>
+                <h2 className="text-xl font-semibold">Bank Of Questions{questions ? ` (${questions.length})` : ""}</h2>
                 <button
                     onClick={handleAddClick}
                     className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer"
