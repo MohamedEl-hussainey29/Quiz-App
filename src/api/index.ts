@@ -2,3 +2,4 @@ export * as AuthAPI from "./modules/auth";
 export * as StudentsAPI from "./modules/students";
 export * as QuizzesAPI from "./modules/quizzes";
 export * as QuestAPI from "./modules/questions";
+export * as GroupsAPI from "./modules/groups";

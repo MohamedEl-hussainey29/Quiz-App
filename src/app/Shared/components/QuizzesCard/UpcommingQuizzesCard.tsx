@@ -56,7 +56,7 @@ export default function UpcommingQuizzesCard() {
                     )}
                 </CardAction>
             </CardHeader>
-            <CardContent>
+            <CardContent className="max-h-80 overflow-y-auto pr-1">
                 {loading ? (
                     <SkeletonUI numElements={2} />
                 ) : quizzes.length > 0 ? (

@@ -16,7 +16,7 @@ export default function CompletedQuizzesCard({ maxHeight }: { maxHeight?: string
         { header: "Title", accessor: "title" },
         { header: "Group Name", accessor: "group" },
         { header: "No. of persons in group", accessor: "participants" },
-        { header: "Date", accessor: "schadule" },
+        {header: "Date",accessor: (row) => new Date(row.schadule).toLocaleDateString("en-GB")}
     ]
 
   return (
