@@ -86,6 +86,13 @@ function ScheduleInput({ value, onChange }: { value: string; onChange: (v: strin
   const [date, setDate] = useState(value ? value.slice(0, 10) : "");
   const [time, setTime] = useState(value ? value.slice(11, 16) : "");
 
+  const now = new Date();
+  const todayStr = now.toISOString().slice(0, 10);
+  const isToday = date === todayStr;
+  const minTime = isToday
+    ? `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`
+    : undefined;
+
   const handleDateChange = (newDate: string) => {
     setDate(newDate);
     if (newDate && time) onChange(`${newDate}T${time}:00`);
@@ -106,11 +113,9 @@ function ScheduleInput({ value, onChange }: { value: string; onChange: (v: strin
         <input
           type="date"
           value={date}
+          min={todayStr}
           onChange={(e) => handleDateChange(e.target.value)}
-          className={cn(
-            "w-full min-w-0 bg-transparent text-sm outline-none",
-            nativeIconReset
-          )}
+          className={cn("w-full min-w-0 bg-transparent text-sm outline-none", nativeIconReset)}
         />
       </div>
 
@@ -119,11 +124,9 @@ function ScheduleInput({ value, onChange }: { value: string; onChange: (v: strin
         <input
           type="time"
           value={time}
+          min={minTime}
           onChange={(e) => handleTimeChange(e.target.value)}
-          className={cn(
-            "w-full min-w-0 bg-transparent text-sm outline-none",
-            nativeIconReset
-          )}
+          className={cn("w-full min-w-0 bg-transparent text-sm outline-none", nativeIconReset)}
         />
       </div>
     </div>
