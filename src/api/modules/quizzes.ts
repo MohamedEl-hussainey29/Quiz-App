@@ -10,6 +10,10 @@ export const GetCompletedQuizzes = ()=>{
     return axiosClient.get("/quiz/completed");
 }
 
+export const GetQuizById = (id: string)=>{
+    return axiosClient.get(`/quiz/${id}`);
+}
+
 export const CreateQuiz = (data: QuizFormValues)=>{
     return axiosClient.post("/quiz", data);
 }

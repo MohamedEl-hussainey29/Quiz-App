@@ -10,6 +10,7 @@ import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
 import Link from "next/link"
+import QuizData from "@/src/app/dashboard/quizzes/components/QuizData"
 
 function IconBadge({
   icon: Icon,
@@ -37,8 +38,10 @@ function Divider() {
 export default function NavBar() {
   const { userData, logout }: any = useContext(AuthContext)
   const pathname = usePathname()
-  const pageName = pathname.split("/").filter(Boolean).pop()
+  const segments = pathname.split("/").filter(Boolean)
+  const pageName = segments[0] === "dashboard" ? segments[1] ?? "dashboard": segments[0] ?? ""
   const [logoutOpen, setLogoutOpen] = useState(false)
+  const [dataOpen, setDataOpen] = useState(false)
 
   return (
     <header className="flex h-16 items-center justify-between border-b-2 bg-white px-3 sm:h-17.5 sm:px-4 py-2">
@@ -50,7 +53,9 @@ export default function NavBar() {
       </div>
 
       <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-        <button className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
+        <button 
+          onClick={()=> setDataOpen(true)}
+          className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
           <AlarmClockPlus className="h-6 w-6 sm:h-8 sm:w-8" />
           <span className="hidden sm:inline">New quiz</span>
         </button>
@@ -155,6 +160,10 @@ export default function NavBar() {
         open={logoutOpen}
         onOpenChange={setLogoutOpen}
         onConfirm={logout}
+      />
+      <QuizData 
+          open={dataOpen}
+          onOpenChange={setDataOpen}
       />
     </header>
   )
