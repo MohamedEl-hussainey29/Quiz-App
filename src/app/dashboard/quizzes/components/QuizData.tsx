@@ -10,6 +10,7 @@ import QuizForm from "./QuizForm";
 import useGetData from "@/src/hooks/useGetData";
 import { Group } from "@/src/types/groups";
 import QuizSuccessDialog from "./QuizSuccessDialog";
+import axios from "axios";
 
 interface QuizDataProps {
   open: boolean
@@ -79,8 +80,12 @@ export default function QuizData({ open, onOpenChange, quizInfo}: QuizDataProps)
         toast.success(response?.data?.message);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message ?? "Something went wrong")
+      } else if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error("An unexpected error occurred")
       }
     } finally {
       setLoading(false)
