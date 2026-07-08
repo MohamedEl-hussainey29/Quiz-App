@@ -104,7 +104,7 @@ export default function QuestionsBank() {
 
   return (
     <>
-        <div className="py-3 px-5 my-4 mx-2 border-2 rounded-xl h-full">
+        <div className="pt-3 pb-6 px-5 my-4 mx-2 border-2 rounded-xl max-h-[86vh] overflow-hidden flex flex-col">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Bank Of Questions{questions ? ` (${questions.length})` : ""}</h2>
                 <button
@@ -116,20 +116,22 @@ export default function QuestionsBank() {
                 </button>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-2">
                 <QuestionFilters value={filters} onChange={setFilters} />
             </div>
 
             <div className="mt-4 min-w-0 w-full max-w-full flex-1">
                 {/* table */}
-                <DataTable
-                    columns={columns}
-                    data={currentRows}
-                    loading={dataLoading}
-                    getRowId={(row) => row._id}
-                    emptyLabel="Questions"
-                    renderActions={renderRowActions}
-                />
+                <div className="hidden sm:block">
+                    <DataTable
+                        columns={columns}
+                        data={currentRows}
+                        loading={dataLoading}
+                        getRowId={(row) => row._id}
+                        emptyLabel="Questions"
+                        renderActions={renderRowActions}
+                    />
+                </div>
 
                 {/* grid */}
                 <div className="sm:hidden flex flex-col gap-3 overflow-y-auto pr-1" style={{ maxHeight: "60vh" }}>

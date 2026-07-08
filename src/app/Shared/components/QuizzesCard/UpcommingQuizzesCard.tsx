@@ -11,11 +11,13 @@ import { toast } from "react-toastify"
 import { Quiz } from "@/src/types/quizzes"
 import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import NoData from "../NoData/NoData"
+import { usePathname } from "next/navigation"
 
-export default function QuizzesCard() {
+export default function UpcommingQuizzesCard() {
     const [quizzes , setQuizzes] = useState<Quiz[]>([]);
     const [loading , setLoading] = useState(false);
     const quizImgs = [quizImg1 , quizImg2]
+    const pathname = usePathname();
 
     useEffect(() => {
         const getQuizzes = async () => {
@@ -43,13 +45,15 @@ export default function QuizzesCard() {
                 Upcoming Quizzes
                 </CardTitle>
                 <CardAction>
-                <Link
-                    href="/dashboard/quizzes"
-                    className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
-                >
-                    <span>Quiz directory</span>
-                    <MoveRight className="h-5 w-5 sm:h-6 sm:w-6 text-[#C5D86D] shrink-0" />
-                </Link>
+                    {pathname !== "/dashboard/quizzes" && (
+                        <Link
+                        href="/dashboard/quizzes"
+                        className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
+                        >
+                        <span>Quiz directory</span>
+                        <MoveRight className="h-5 w-5 sm:h-6 sm:w-6 text-[#C5D86D] shrink-0" />
+                        </Link>
+                    )}
                 </CardAction>
             </CardHeader>
             <CardContent>
