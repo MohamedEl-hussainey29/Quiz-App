@@ -13,12 +13,15 @@ import { Question } from "@/src/types/questions";
 import { CirclePlus, Eye, SquarePen, Trash2, MoreVertical } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import QuestionData from "./QuestionData";
 
 
 export default function QuestionsBank() {
 
     const [deleteOpen, setDeleteOpen] = useState(false);
+    const [dataOpen, setDataOpen] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
+    const [mode, setMode] = useState("");
 
     const columns: ColumnDef<Question>[] = [
         { header: "Question Title", accessor: "title" },
@@ -27,11 +30,29 @@ export default function QuestionsBank() {
         { header: "Category", accessor: "type" },
     ]
 
-    const { data: questions, isLoading, refetch } = useGetData<Question[]>(
+    const { data: questions, isLoading: dataLoading, refetch } = useGetData<Question[]>(
         QuestAPI.GetAllQuestions
     )
 
     const { currentRows, currentPage, setCurrentPage, totalPages } = usePagination(questions, 10)
+
+    const handleAddClick = ()=>{
+        setMode("");
+        setSelectedQuestion(null);
+        setDataOpen(true);
+    }
+
+    const handleViewClick = (row: Question) => {
+        setMode("view");
+        setSelectedQuestion(row);
+        setDataOpen(true);
+    }
+
+    const handleEditClick = (row: Question) => {
+        setMode("edit");
+        setSelectedQuestion(row);
+        setDataOpen(true);
+    }
 
     const handleDeleteClick = (row: Question) => {
         setSelectedQuestion(row);
@@ -54,10 +75,10 @@ export default function QuestionsBank() {
 
     const renderRowActions = (row: Question) => (
         <>
-            <button onClick={() => console.log("view", row._id)} className="text-[#F5A623] hover:opacity-70">
+            <button onClick={() => handleViewClick(row)} className="text-[#F5A623] hover:opacity-70">
                 <Eye className="h-5 w-5 cursor-pointer" />
             </button>
-            <button onClick={() => console.log("edit", row._id)} className="text-[#F5A623] hover:opacity-70">
+            <button onClick={() => handleEditClick(row)} className="text-[#F5A623] hover:opacity-70">
                 <SquarePen className="h-5 w-5 cursor-pointer" />
             </button>
             <button onClick={() => handleDeleteClick(row)} className="text-[#F5A623] hover:opacity-70">
@@ -70,8 +91,11 @@ export default function QuestionsBank() {
     <>
         <div className="py-3 px-5 my-4 mx-2 border-2 rounded-xl h-full">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Bank Of Questions</h2>
-                <button className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
+                <h2 className="text-xl font-semibold">Bank Of Questions ({questions?.length})</h2>
+                <button
+                    onClick={handleAddClick}
+                    className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer"
+                >
                     <CirclePlus className="h-6 w-6 sm:h-8 sm:w-8 bg-black text-white rounded-2xl" />
                     <span className="hidden sm:inline">Add Question</span>
                 </button>
@@ -82,7 +106,7 @@ export default function QuestionsBank() {
                 <DataTable
                     columns={columns}
                     data={currentRows}
-                    loading={isLoading}
+                    loading={dataLoading}
                     getRowId={(row) => row._id}
                     emptyLabel="Questions"
                     renderActions={renderRowActions}
@@ -90,7 +114,7 @@ export default function QuestionsBank() {
 
                 {/* grid */}
                 <div className="sm:hidden flex flex-col gap-3 overflow-y-auto pr-1" style={{ maxHeight: "60vh" }}>
-                    {isLoading ? (
+                    {dataLoading ? (
                         Array.from({ length: 5 }).map((_, index) => (
                             <div key={index} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                                 <Skeleton className="mb-4 h-5 w-3/4" />
@@ -165,6 +189,14 @@ export default function QuestionsBank() {
             item="Question"
             itemData={selectedQuestion}
             displayName={selectedQuestion?.title}
+        />
+
+        <QuestionData 
+            open={dataOpen}
+            onOpenChange={setDataOpen}
+            questionInfo={selectedQuestion}
+            refetch={refetch}
+            mode={mode}
         />
     </>
   )
