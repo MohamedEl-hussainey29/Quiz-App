@@ -21,3 +21,7 @@ export const CreateQuiz = (data: QuizFormValues)=>{
 export const UpdateQuiz = (id: string, data: QuizFormValues)=>{
     return axiosClient.put(`/quiz/${id}`, data);
 }
+
+export const DeleteQuiz = (id: string)=>{
+    return axiosClient.delete(`/quiz/${id}`);
+}

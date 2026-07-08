@@ -1,6 +1,6 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarDays, Clock3, Pencil } from "lucide-react"
+import { CalendarDays, Clock3, Pencil, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { QuizzesAPI } from "@/src/api"
 import { toast } from "react-toastify"
@@ -9,6 +9,8 @@ import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import NoData from "@/src/app/Shared/components/NoData/NoData"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import QuizData from "./QuizData"
+import { DeleteConfirmation } from "@/src/app/Shared/components/DeleteConfirmation/DeleteConfirmation"
+import { useRouter } from "next/navigation"
 
 function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
@@ -33,6 +35,8 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
   const [quiz, setQuiz] = useState<Quiz | null>(null)
   const [loading, setLoading] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const router = useRouter();
 
   useEffect(() => {
     if (!quizId) return
@@ -53,6 +57,20 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
 
     getQuiz()
   }, [quizId])
+
+    const deleteQuiz = async () => {
+        if (!quiz?._id) return;
+        try {
+            const response = await QuizzesAPI.DeleteQuiz(quiz?._id);
+            router.replace("/dashboard/quizzes");
+            toast.success(response?.data?.message)
+            setQuiz(null);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
+        }
+    }
 
   if (loading) {
     return <SkeletonUI numElements={1} />
@@ -111,7 +129,15 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
           <DetailRow label="Status" value={quiz.status} />
           <DetailRow label="Join Code" value={quiz.code} />
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setDeleteOpen(true)}
+              className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white cursor-pointer"
+            >
+              <Trash2 className="h-4 w-4" />
+              
+              Delete
+            </button>
             <button
               onClick={() => setEditOpen(true)}
               className="flex items-center gap-2 rounded-lg bg-[#0F1C2E] px-4 py-2 text-sm font-semibold text-white cursor-pointer"
@@ -124,10 +150,18 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
       </Card>
       
       <QuizData
-      open={editOpen}
-      onOpenChange={setEditOpen}
-      quizInfo={quiz}
-    />
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        quizInfo={quiz}
+      />
+      <DeleteConfirmation
+            open={deleteOpen}
+            onOpenChange={setDeleteOpen}
+            onConfirm={deleteQuiz}
+            item="Quiz"
+            itemData={quiz}
+            displayName={quiz?.title}
+        />
     </>
   )
 }

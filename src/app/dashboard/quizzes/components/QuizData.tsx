@@ -128,7 +128,7 @@ export default function QuizData({ open, onOpenChange, quizInfo}: QuizDataProps)
           {/* Body */}
           <div className="px-4 py-5 sm:px-8 sm:py-8">
             <form id="quiz-form" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-              <QuizForm mode={quizInfo ? "edit" : "create"} register={register} control={control} errors={errors} groups={allGroups} />
+              <QuizForm register={register} control={control} errors={errors} groups={allGroups} />
             </form>
           </div>
         </DialogContent>
