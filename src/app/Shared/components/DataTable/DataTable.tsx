@@ -1,4 +1,3 @@
-// components/shared/data-table.tsx
 "use client"
 
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
@@ -28,13 +27,13 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
   return (
     <div className="rounded-lg overflow-hidden">
       <div className="overflow-y-auto overflow-x-auto" style={{ maxHeight }}>
-        <Table className="border-separate border-spacing-y-2 table-fixed w-full">
+        <Table className="border-separate border-spacing-y-2 w-full sm:table-fixed">
           <TableHeader>
             <TableRow className="bg-black hover:bg-black">
               {columns.map((col, i) => (
                 <TableHead
                   key={i}
-                  className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 border-r-2 border-white truncate max-w-50 ${
+                  className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 border-r-2 border-white whitespace-nowrap sm:truncate sm:max-w-50 ${
                     i === 0 ? "rounded-l-md" : ""
                   } ${col.className ?? ""}`}
                   title={col.header}
@@ -44,7 +43,7 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
               ))}
               {renderActions && (
                 <TableHead
-                  className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 max-w-30 rounded-r-md`}
+                  className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 max-w-30 rounded-r-md text-center`}
                 >
                   Actions
                 </TableHead>
@@ -86,7 +85,7 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
                       return (
                         <TableCell
                           key={i}
-                          className={`border-2 border-gray-200 text-sm px-4 py-2 truncate max-w-50 ${
+                          className={`border-2 border-gray-200 text-sm px-4 py-2 whitespace-nowrap sm:truncate sm:max-w-50 ${
                             i === 0 ? "rounded-l-md" : ""
                           } ${
                             !renderActions && i === columns.length - 1
@@ -101,7 +100,7 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
                     })}
                     {renderActions && (
                       <TableCell className="border-3 border-gray-200 rounded-r-md max-w-30 px-4">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center gap-3">
                           {renderActions(row)}
                         </div>
                       </TableCell>
