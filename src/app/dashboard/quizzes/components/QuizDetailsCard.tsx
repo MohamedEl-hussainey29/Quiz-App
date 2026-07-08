@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CalendarDays, Clock3, Pencil, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { QuizzesAPI } from "@/src/api"
-import { toast } from "react-toastify"
+
 import { Quiz } from "@/src/types/quizzes"
 import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import NoData from "@/src/app/Shared/components/NoData/NoData"
@@ -11,6 +11,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 import QuizData from "./QuizData"
 import { DeleteConfirmation } from "@/src/app/Shared/components/DeleteConfirmation/DeleteConfirmation"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
