@@ -3,12 +3,9 @@
 import { useMemo } from "react";
 import { ColumnDef, DataTable } from "@/src/app/Shared/components/DataTable/DataTable";
 import { ResultsAPI } from "@/src/api";
-import { Result } from "@/src/types/results";
+import { Result, Participant } from "@/src/types/results";
 import useGetData from "@/src/hooks/useGetData";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
-
-
-type Participant = Result["participants"][number];
 
 interface ResultDetailsTableProps {
     resultsId: string;
@@ -24,13 +21,20 @@ export default function ResultDetailsTable({ resultsId }: ResultDetailsTableProp
         [results, resultsId]
     );
 
+    const participants: Participant[] = useMemo(() => {
+        if (!result) return [];
+        if (Array.isArray(result.participants)) return result.participants;
+        if (result.result) return [result.result];
+        return [];
+    }, [result]);
+
     const maxScore = result ? result.quiz.questions_number * result.quiz.score_per_question : 0;
 
     const columns: ColumnDef<Participant>[] = [
-        {header: "Student name", accessor: (row) => `${row.participant.first_name} ${row.participant.last_name}`},
-        {header: "Score", accessor: (row) => row.score },
-        {header: "Average", accessor: () => maxScore },
-        {header: "Time submitted", accessor: (row) => new Date(row.started_at).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit", hour12: true})},
+        { header: "Student name", accessor: (row) => `${row.participant.first_name} ${row.participant.last_name}` },
+        { header: "Score", accessor: (row) => row.score },
+        { header: "Average", accessor: () => maxScore },
+        { header: "Time submitted", accessor: (row) => new Date(row.started_at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true }) },
     ];
 
     if (error) return <div>Error: {error}</div>;
@@ -41,11 +45,11 @@ export default function ResultDetailsTable({ resultsId }: ResultDetailsTableProp
             <Breadcrumb className="my-4 mx-2">
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/results">All Results</BreadcrumbLink>
+                        <BreadcrumbLink href="/dashboard/results">All Results</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem className="text-black font-semibold">
-                    <BreadcrumbLink>{result?.quiz?.title}</BreadcrumbLink>
+                        <BreadcrumbLink>{result?.quiz?.title}</BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
@@ -53,7 +57,7 @@ export default function ResultDetailsTable({ resultsId }: ResultDetailsTableProp
                 <h2 className="text-xl font-semibold mb-4">Results</h2>
                 <DataTable
                     columns={columns}
-                    data={result?.participants ?? []}
+                    data={participants}
                     loading={isLoading}
                     getRowId={(row) => row._id}
                     emptyLabel="Participants"
