@@ -7,11 +7,11 @@ import quizImg1 from "../../../images/Quiz img-1.svg"
 import quizImg2 from "../../../images/Quiz img-2.svg"
 import { useEffect, useState } from "react"
 import { QuizzesAPI } from "@/src/api"
-import { toast } from "react-toastify"
 import { Quiz } from "@/src/types/quizzes"
 import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import NoData from "../NoData/NoData"
 import { usePathname } from "next/navigation"
+import { toast } from "sonner"
 
 export default function UpcommingQuizzesCard() {
     const [quizzes , setQuizzes] = useState<Quiz[]>([]);

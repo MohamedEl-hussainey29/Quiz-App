@@ -3,7 +3,6 @@ import {Card, CardAction, CardContent, CardHeader, CardTitle} from "@/components
 import { MoveRight } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { toast } from "react-toastify"
 import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import { Student } from "@/src/types/students"
 import { StudentsAPI } from "@/src/api"
@@ -15,6 +14,7 @@ import avatar4 from "../../../images/user img.png";
 import { StaticImageData } from "next/image";
 import { ViewDetailsDialog } from "../../students/components/ViewDetailsDialog"
 import NoData from "@/src/app/Shared/components/NoData/NoData"
+import { toast } from "sonner"
 
 export default function TopStudentsCard() {
     const [students , setStudents] = useState<Student[]>([]);

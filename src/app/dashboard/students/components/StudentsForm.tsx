@@ -8,11 +8,11 @@ import avatar4 from "../../../images/user img.png";
 import { useEffect, useState } from "react";
 import { Student } from "@/src/types/students";
 import Pagination from "@/src/app/Shared/components/Pagination/Pagination";
-import { toast } from "react-toastify";
 import StudentCard from "@/src/app/Shared/components/StudentCard/StudentCard";
 import SkeletonUI from "./Skeleton";
 import { ViewDetailsDialog } from "./ViewDetailsDialog";
 import { StaticImageData } from "next/image";
+import { toast } from "sonner";
 
 export default function StudentsForm() {
   const [students, setStudents] = useState<Student[]>([]);
