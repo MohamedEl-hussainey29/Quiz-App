@@ -4,7 +4,8 @@ import { Student } from "@/src/types/students";
 import { toast } from "react-toastify";
 
 export default function useStudents() {
-    const [students, setStudents] = useState<Student[]>([]);
+    
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
 
     const getAllStudents = async () => {

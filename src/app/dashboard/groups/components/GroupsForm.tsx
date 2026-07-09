@@ -1,18 +1,19 @@
 "use client";
-import { GroupsAPI } from "@/src/api";
+
 import Pagination from "@/src/app/Shared/components/Pagination/Pagination";
 import { Group } from "@/src/types/groups";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { toast } from "react-toastify";
 import SkeletonUI from "../../students/components/Skeleton";
 
 interface GroupsFormProps {
-   groups: Group[];
+  groups: Group[];
   loading: boolean;
+  onEdit: (group: Group) => void;
+  onDelete: (group: Group) => void; 
 }
 
-export default function GroupsForm({groups, loading}: GroupsFormProps ) {
+export default function GroupsForm({groups, loading, onEdit, onDelete}: GroupsFormProps ) {
   const [currentPage, setCurrentPage] = useState(1);
   
   const itemsPerPage = 10;
@@ -20,7 +21,6 @@ export default function GroupsForm({groups, loading}: GroupsFormProps ) {
   const lastIndex = firstIndex + itemsPerPage;
   const currentGroups = groups.slice(firstIndex, lastIndex);
   const totalPages = Math.ceil(groups.length / itemsPerPage);
-
 
   return (
     <>
@@ -40,9 +40,9 @@ export default function GroupsForm({groups, loading}: GroupsFormProps ) {
                   {group.students?.length ?? 0}
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[18px] absolute right-3 top-1/2 -translate-y-1/2">
-                <FaEdit />
-                <FaTrash />
+              <div className="flex items-center gap-2 text-[18px] absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer">
+                <FaEdit onClick={() => onEdit(group)} />
+                <FaTrash onClick={() => onDelete(group) } />
               </div>
             </div>
           )))}

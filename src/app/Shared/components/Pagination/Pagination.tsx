@@ -14,7 +14,7 @@ export default function Pagination({currentPage, totalPages, setCurrentPage,}: P
   }
   return (
     <>
-     {totalPages > 1 && (
+     
       <div className='flex items-center justify-center gap-2 mt-5'>
        <button disabled={currentPage === 1} 
        onClick={() => setCurrentPage(currentPage - 1)} 
@@ -78,9 +78,7 @@ export default function Pagination({currentPage, totalPages, setCurrentPage,}: P
         <FaChevronRight className="mx-auto" />
        </button>
      </div>
-     )
-
-     }
+    
     </>
   );
 }
