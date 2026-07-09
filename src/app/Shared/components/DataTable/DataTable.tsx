@@ -32,13 +32,17 @@ export function DataTable<T>({columns, data, loading, renderActions, getRowId, m
             <TableRow className="bg-black hover:bg-black">
               {columns.map((col, i) => (
                 <TableHead
-                  key={i}
-                  className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 border-r-2 border-white whitespace-nowrap sm:truncate sm:max-w-50 ${
-                    i === 0 ? "rounded-l-md" : ""
-                  } ${col.className ?? ""}`}
-                  title={col.header}
+                    key={i}
+                    className={`sticky top-0 z-20 bg-black text-white font-medium h-11 text-sm px-4 border-white whitespace-nowrap sm:truncate sm:max-w-50 ${
+                        i === 0 ? "rounded-l-md" : ""
+                    } ${
+                        !renderActions && i === columns.length - 1
+                            ? "rounded-r-md"
+                            : "border-r-2"
+                    } ${col.className ?? ""}`}
+                    title={col.header}
                 >
-                  {col.header}
+                    {col.header}
                 </TableHead>
               ))}
               {renderActions && (

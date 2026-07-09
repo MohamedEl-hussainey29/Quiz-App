@@ -1,5 +1,3 @@
-import { Student } from "./students";
-
 export interface Result{
     quiz: {
         _id: string;
@@ -20,5 +18,19 @@ export interface Result{
         __v: number;
         closed_at: string;
     },
-    participants: Student[]
+    participants: [{
+        _id: string;
+        quiz: {
+            _id: string;
+            title: string;
+        },
+        participant: {
+            _id: string;
+            first_name: string;
+            last_name: string;
+            email: string;
+        },
+        score: number;
+        started_at: string;
+    }]
 }
