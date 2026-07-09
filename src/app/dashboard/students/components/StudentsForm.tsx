@@ -13,17 +13,17 @@ import SkeletonUI from "./Skeleton";
 import { ViewDetailsDialog } from "./ViewDetailsDialog";
 import { StaticImageData } from "next/image";
 import { toast } from "sonner";
+import useStudents from "@/src/hooks/useStudents";
+
 
 export default function StudentsForm() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [loading, setLoading] = useState(false);
+  const {students, loading} = useStudents();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [selectedAvatar, setSelectedAvatar] = useState<StaticImageData | null>(
     null,
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const itemsPerPage = 10;
   const firstIndex = (currentPage - 1) * itemsPerPage;
   const lastIndex = firstIndex + itemsPerPage;
@@ -31,24 +31,6 @@ export default function StudentsForm() {
   const totalPages = Math.ceil(students.length / itemsPerPage);
 
   const avatars = [avatar3, avatar4, avatar2, avatar1];
-
-  const getAllStudents = async () => {
-    setLoading(true);
-    try {
-      const response = await StudentsAPI.getAllStudents();
-      setStudents(response.data);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getAllStudents();
-  }, []);
 
 
   return (

@@ -1,6 +1,7 @@
+import GroupData from "./components/GroupData";
 
 export default function GroupsList() {
-  return (
-    <div>GroupsList</div>
-  )
+  return <>
+  <GroupData/>
+  </>
 }
