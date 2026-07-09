@@ -15,7 +15,10 @@ export default function CompletedQuizzesCard({ maxHeight }: { maxHeight?: string
     const columns: ColumnDef<Quiz>[] = [
         { header: "Title", accessor: "title" },
         { header: "Group Name", accessor: "group" },
-        { header: "No. of persons in group", accessor: "participants" },
+        {header: "No. of persons in group", accessor: (row) => {
+            const count = row.participants;
+            return `${count} ${count === 1 ? "Person" : "Persons"}`;
+        }},
         {header: "Date",accessor: (row) => new Date(row.schadule).toLocaleDateString("en-GB")}
     ]
 
