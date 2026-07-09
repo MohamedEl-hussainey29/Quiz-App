@@ -2,10 +2,10 @@
 "use client"
 
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { AuthContext } from "@/src/context/AuthContext"
+import { useAuth } from "@/src/context/AuthContext"
 import { AlarmClockPlus, Mail, Bell, ChevronDown, LogOut, RotateCcwKey } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
@@ -36,7 +36,7 @@ function Divider() {
 }
 
 export default function NavBar() {
-  const { userData, logout }: any = useContext(AuthContext)
+  const { userData, logout }: any = useAuth();
   const pathname = usePathname()
   const segments = pathname.split("/").filter(Boolean)
   const pageName = segments[0] === "dashboard" ? segments[1] ?? "dashboard": segments[0] ?? ""

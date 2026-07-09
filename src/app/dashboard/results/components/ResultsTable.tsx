@@ -13,12 +13,10 @@ export default function ResultsTable() {
     const columns: ColumnDef<Result>[] = [
         { header: "Title", accessor: (row) => row?.quiz?.title },
         { header: "Group Name", accessor: (row) => row?.quiz?.group },
-        {
-            header: "Participants", accessor: (row) => {
-                const count = row.participants.length;
-                return `${count} ${count === 1 ? "Participant" : "Participants"}`;
-            }
-        },
+        {header: "Participants", accessor: (row) => {
+            const count = Array.isArray(row.participants) ? row.participants.length : row.result ? 1 : 0;
+            return `${count} ${count === 1 ? "Participant" : "Participants"}`;
+        }},
         { header: "Date", accessor: (row) => new Date(row?.quiz?.schadule).toLocaleDateString("en-GB") }
     ]
 
