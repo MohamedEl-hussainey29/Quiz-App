@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import ResultDetailsTable from "../components/ResultsDetailsTable";
 
-export default async function ResultsDetails({params}: any) {
+interface PageProps {
+    params: Promise<{ resultsId: string }>;
+}
 
-  const {resultsId} = await params
-  return (
-    <>
-      <div>ResultsDetails</div>
-      <h1> results ID is : {resultsId}</h1>
-    </>
-  )
+export default async function ResultDetailsPage({ params }: PageProps) {
+    const { resultsId } = await params;
+
+    return <ResultDetailsTable resultsId={resultsId} />;
 }
