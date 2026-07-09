@@ -24,7 +24,7 @@ export default function GroupsForm({groups, loading, onEdit, onDelete}: GroupsFo
 
   return (
     <>
-      <section className="border border-[#00000033] px-10 rounded-[10px] my-5 overflow-y-auto md:mx-5">
+      <section className="border border-[#00000033] px-10 rounded-[10px] my-2 overflow-y-auto md:mx-5 h-[80vh] sm:h-[70vh] flex flex-col">
         <h3 className="py-3 text-[20px] font-medium">Groups List</h3>
 
         <div className="grid md:grid-cols-2 gap-3 mt-5 ">
@@ -49,11 +49,13 @@ export default function GroupsForm({groups, loading, onEdit, onDelete}: GroupsFo
           
         </div>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
-        />
+        <div className="mt-auto">
+          <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+          />
+        </div>
       </section>
     </>
   );

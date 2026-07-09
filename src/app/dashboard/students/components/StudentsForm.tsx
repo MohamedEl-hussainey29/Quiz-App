@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import avatar1 from "../../../images/user img (1).png";
@@ -42,7 +41,7 @@ export default function StudentsForm() {
 
   return (
     <>
-      <section className="border border-[#00000033] px-10 rounded-[10px] my-5 overflow-y-auto md:mx-5">
+      <section className="border border-[#00000033] px-10 rounded-[10px] my-5 overflow-y-auto md:mx-5 h-[80vh] flex flex-col">
         <h3 className="py-3 text-[20px] font-medium">Students List</h3>
 
         <div className="flex flex-wrap gap-3">
@@ -62,6 +61,7 @@ export default function StudentsForm() {
 
           {groups.map((group) => (
             <button
+              key={group._id}
               onClick={() => {
                 setSelectedGroup(group._id);
                 setCurrentPage(1);
@@ -104,12 +104,13 @@ export default function StudentsForm() {
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
         />
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
-        />
+        <div className="mt-auto">
+          <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+          />
+        </div>
       </section>
     </>
   );

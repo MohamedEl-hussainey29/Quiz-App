@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import { GroupsAPI } from "../api";
 import { Group } from "../types/groups";

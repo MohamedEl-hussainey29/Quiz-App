@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import { StudentsAPI } from "@/src/api";
 import { Student } from "@/src/types/students";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function useStudents() {
     
