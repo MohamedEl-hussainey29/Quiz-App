@@ -125,7 +125,7 @@ export default function GroupData() {
 
   return (
     <>
-      <div className="flex items-center justify-end mt-4">
+      <div className="flex items-center justify-end mt-4 sm:mx-4">
         <AddButton
           text="Add Group"
           onClick={() => {
@@ -176,10 +176,12 @@ export default function GroupData() {
                 className="..."
               >
                 {isSubmitting ? (
-                  <div className="flex h-16 w-14 items-center justify-center border-l-3 transition-colors hover:bg-gray-50 disabled:opacity-50 cursor-pointer" />
+                  <div className="flex h-16 w-14 items-center justify-center border-l-3 transition-colors hover:bg-gray-50 disabled:opacity-50 cursor-pointer">
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-black border-t-transparent" />
+                  </div>
                 ) : (
                   <div className="flex h-16 w-14 items-center justify-center border-l-3 transition-colors hover:bg-gray-50 disabled:opacity-50 cursor-pointer">
-                    <Check className="size-5 " />
+                    <Check className="size-5" />
                   </div>
                 )}
               </button>
