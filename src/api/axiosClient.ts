@@ -2,7 +2,6 @@ import axios from "axios";
 
 const axiosClient = axios.create({
   baseURL: "https://upskilling-egypt.com:3005/api",
-  timeout: 30000,
 });
 
 axiosClient.interceptors.request.use(
