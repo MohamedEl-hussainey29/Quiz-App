@@ -83,7 +83,11 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
 
   const date = new Date(quiz.schadule)
   const formattedDate = `${pad(date.getDate())} / ${pad(date.getMonth() + 1)} / ${date.getFullYear()}`
-  const formattedTime = `${pad(date.getHours())} : ${pad(date.getMinutes())}`
+  const formattedTime = date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 
   return (
     <>
