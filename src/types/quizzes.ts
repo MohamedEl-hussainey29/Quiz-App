@@ -64,3 +64,7 @@ export interface DetailedQuiz{
     createdAt: string;
     __v: number
 }
+
+export interface JoinQuizFormValues{
+    code: string
+}
