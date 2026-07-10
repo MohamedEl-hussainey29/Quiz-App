@@ -9,14 +9,19 @@ import { Group } from "@/src/types/groups";
 import { Result } from "@/src/types/results";
 import Link from "next/link";
 import { useMemo } from "react";
+import { useAuth } from "@/src/context/AuthContext";
 
 export default function ResultsTable() {
+    const { userData } = useAuth();
+    const isStudent = userData?.role === "Student";
 
     const { data: results, isLoading: dataLoading } = useGetData<Result[]>(
         ResultsAPI.getAllResults
     );
     const { data: groups } = useGetData<Group[]>(
-        GroupsAPI.GetAllGroups
+        GroupsAPI.GetAllGroups,
+        [],
+        !isStudent
     );
 
     // Build a lookup map: groupId -> Group
@@ -28,22 +33,41 @@ export default function ResultsTable() {
         return map;
     }, [groups]);
 
-    const columns: ColumnDef<Result>[] = [
-        { header: "Title", accessor: (row) => row?.quiz?.title },
-        {header: "Group Name", accessor: (row) => groupsMap.get(row?.quiz?.group)?.name ?? "—"},
-        {
-            header: "No. of persons in group",
-            accessor: (row) => {
-                const count = groupsMap.get(row?.quiz?.group)?.students.length ?? 0;
-                return `${count} ${count === 1 ? "Person" : "Persons"}`;
-            },
-        },
-        {header: "Participants", accessor: (row) => {
-            const count = Array.isArray(row.participants) ? row.participants.length : row.result ? 1 : 0;
-            return `${count} ${count === 1 ? "Participant" : "Participants"}`;
-        }},
-        { header: "Date", accessor: (row) => new Date(row?.quiz?.schadule).toLocaleDateString("en-GB") }
-    ]
+    const columns: ColumnDef<Result>[] = useMemo(() => {
+        const baseColumns: ColumnDef<Result>[] = [
+            { header: "Title", accessor: (row) => row?.quiz?.title },
+        ];
+
+        if (!isStudent) {
+            baseColumns.push(
+                {
+                    header: "Group Name",
+                    accessor: (row) => groupsMap.get(row?.quiz?.group)?.name ?? "—",
+                },
+                {
+                    header: "No. of persons in group",
+                    accessor: (row) => {
+                        const count = groupsMap.get(row?.quiz?.group)?.students.length ?? 0;
+                        return `${count} ${count === 1 ? "Person" : "Persons"}`;
+                    },
+                },
+                {
+                    header: "Participants",
+                    accessor: (row) => {
+                        const count = Array.isArray(row.participants) ? row.participants.length : row.result ? 1 : 0;
+                        return `${count} ${count === 1 ? "Participant" : "Participants"}`;
+                    },
+                }
+            );
+        }
+
+        baseColumns.push({
+            header: "Date",
+            accessor: (row) => new Date(row?.quiz?.schadule).toLocaleDateString("en-GB"),
+        });
+
+        return baseColumns;
+    }, [isStudent, groupsMap]);
 
     const { currentRows, currentPage, setCurrentPage, totalPages } = usePagination(results, 10);
 

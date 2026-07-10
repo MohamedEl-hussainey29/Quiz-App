@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
 import Link from "next/link"
 import QuizData from "@/src/app/dashboard/quizzes/components/QuizData"
+import JoinQuizForm from "@/src/app/dashboard/quizzes/components/JoinQuizForm"
 
 function IconBadge({
   icon: Icon,
@@ -37,11 +38,13 @@ function Divider() {
 
 export default function NavBar() {
   const { userData, logout }: any = useAuth();
+  const userRole = userData?.role;
   const pathname = usePathname()
   const segments = pathname.split("/").filter(Boolean)
   const pageName = segments[0] === "dashboard" ? segments[1] ?? "dashboard": segments[0] ?? ""
   const [logoutOpen, setLogoutOpen] = useState(false)
-  const [dataOpen, setDataOpen] = useState(false)
+  const [dataOpen, setDataOpen] = useState(false);
+  const [joinFormOpen, setJoinFormOpen] = useState(false)
 
   return (
     <header className="flex h-16 items-center justify-between border-b-2 bg-white px-3 sm:h-17.5 sm:px-4 py-2">
@@ -51,14 +54,25 @@ export default function NavBar() {
           {pageName}
         </h1>
       </div>
-
+      
       <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-        <button 
-          onClick={()=> setDataOpen(true)}
-          className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
-          <AlarmClockPlus className="h-6 w-6 sm:h-8 sm:w-8" />
-          <span className="hidden sm:inline">New quiz</span>
-        </button>
+        {userRole == "Instructor" &&(
+          <button 
+            onClick={()=> setDataOpen(true)}
+            className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
+            <AlarmClockPlus className="h-6 w-6 sm:h-8 sm:w-8" />
+            <span className="hidden sm:inline">New quiz</span>
+          </button>
+        )}
+        
+        {userRole == "Student" &&(
+          <button 
+            onClick={()=> setJoinFormOpen(true)}
+            className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
+            <AlarmClockPlus className="h-6 w-6 sm:h-8 sm:w-8" />
+            <span className="hidden sm:inline">Join quiz</span>
+          </button>
+        )}
 
         <Divider />
 
@@ -164,6 +178,10 @@ export default function NavBar() {
       <QuizData 
           open={dataOpen}
           onOpenChange={setDataOpen}
+      />
+      <JoinQuizForm 
+          open={joinFormOpen}
+          onOpenChange={setJoinFormOpen}
       />
     </header>
   )

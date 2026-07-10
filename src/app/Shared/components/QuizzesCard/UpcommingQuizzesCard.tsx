@@ -12,12 +12,15 @@ import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import NoData from "../NoData/NoData"
 import { usePathname } from "next/navigation"
 import { toast } from "sonner"
+import { useAuth } from "@/src/context/AuthContext"
 
 export default function UpcommingQuizzesCard() {
     const [quizzes , setQuizzes] = useState<Quiz[]>([]);
     const [loading , setLoading] = useState(false);
     const quizImgs = [quizImg1 , quizImg2]
     const pathname = usePathname();
+    const { userData } = useAuth();
+    const isStudent = userData?.role === "Student";
 
     useEffect(() => {
         const getQuizzes = async () => {
@@ -45,7 +48,7 @@ export default function UpcommingQuizzesCard() {
                 Upcoming Quizzes
                 </CardTitle>
                 <CardAction>
-                    {pathname !== "/dashboard/quizzes" && (
+                    {pathname !== "/dashboard/quizzes" && !isStudent && (
                         <Link
                         href="/dashboard/quizzes"
                         className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
@@ -89,13 +92,15 @@ export default function UpcommingQuizzesCard() {
                                 </span>
 
                                 <div className="flex justify-between items-center gap-2 mt-2">
-                                <p className="text-xs sm:text-sm font-semibold">
-                                    No. of student’s enrolled: {quiz.participants}
-                                </p>
+                                {!isStudent && (
+                                    <p className="text-xs sm:text-sm font-semibold">
+                                        No. of student’s enrolled: {quiz.participants}
+                                    </p>
+                                )}
 
                                 <Link
-                                    href={`/dashboard/quizzes/${quiz._id}`}
-                                    className="flex items-center gap-1 shrink-0"
+                                    href={isStudent ? `/dashboard/quizzes/take/${quiz._id}` : `/dashboard/quizzes/${quiz._id}`}
+                                    className="flex items-center gap-1 shrink-0 ml-auto"
                                 >
                                     <span className="font-semibold text-sm">Open</span>
                                     <MoveRight className="h-6 w-6 rounded-full bg-[#C5D86D] p-1 text-white shrink-0" />

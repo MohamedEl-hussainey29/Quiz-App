@@ -1,4 +1,4 @@
-import { QuizFormValues } from "@/src/types/quizzes";
+import { JoinQuizFormValues, QuizFormValues } from "@/src/types/quizzes";
 import axiosClient from "../axiosClient"
 
 
@@ -24,4 +24,8 @@ export const UpdateQuiz = (id: string, data: QuizFormValues)=>{
 
 export const DeleteQuiz = (id: string)=>{
     return axiosClient.delete(`/quiz/${id}`);
+}
+
+export const JoinQuiz = (data: JoinQuizFormValues)=>{
+    return axiosClient.post("/quiz/join", data);
 }

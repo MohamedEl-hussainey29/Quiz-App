@@ -8,13 +8,19 @@ import useGetData from "@/src/hooks/useGetData"
 import { ColumnDef, DataTable } from "@/src/app/Shared/components/DataTable/DataTable"
 import { Group } from "@/src/types/groups"
 import { useMemo } from "react"
+import { useAuth } from "@/src/context/AuthContext"
 
 export default function CompletedQuizzesCard({ maxHeight }: { maxHeight?: string }) {
+    const { userData } = useAuth();
+    const isStudent = userData?.role === "Student";
+
     const { data: quizzes, isLoading } = useGetData<Quiz[]>(
         QuizzesAPI.GetCompletedQuizzes
     );
     const { data: groups } = useGetData<Group[]>(
-        GroupsAPI.GetAllGroups
+        GroupsAPI.GetAllGroups,
+        [],
+        !isStudent
     );
 
     // Build a lookup map: groupId -> Group
@@ -26,16 +32,31 @@ export default function CompletedQuizzesCard({ maxHeight }: { maxHeight?: string
         return map;
     }, [groups]);
 
-    const columns: ColumnDef<Quiz>[] = [
-        { header: "Title", accessor: "title" },
-        {header: "Group Name", accessor: (row) => groupsMap.get(row.group)?.name ?? "—"},
-        {header: "No. of persons in group", accessor: (row) => {
-                const count = groupsMap.get(row.group)?.students.length ?? 0;
-                return `${count} ${count === 1 ? "Person" : "Persons"}`;
-            },
-        },
-        {header: "Date",accessor: (row) => new Date(row.schadule).toLocaleDateString("en-GB")}
-    ]
+    const columns: ColumnDef<Quiz>[] = useMemo(() => {
+        const baseColumns: ColumnDef<Quiz>[] = [
+            { header: "Title", accessor: "title" },
+        ];
+
+        if (!isStudent) {
+            baseColumns.push(
+                { header: "Group Name", accessor: (row) => groupsMap.get(row.group)?.name ?? "—" },
+                {
+                    header: "No. of persons in group",
+                    accessor: (row) => {
+                        const count = groupsMap.get(row.group)?.students.length ?? 0;
+                        return `${count} ${count === 1 ? "Person" : "Persons"}`;
+                    },
+                }
+            );
+        }
+
+        baseColumns.push({
+            header: "Date",
+            accessor: (row) => new Date(row.schadule).toLocaleDateString("en-GB"),
+        });
+
+        return baseColumns;
+    }, [isStudent, groupsMap]);
 
   return (
     <Card className="w-full">
@@ -47,7 +68,7 @@ export default function CompletedQuizzesCard({ maxHeight }: { maxHeight?: string
                 <Link
                     href="/dashboard/results"
                     className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
-              >
+                >
                     <span>Results</span>
                     <MoveRight className="h-5 w-5 sm:h-6 sm:w-6 text-[#C5D86D] shrink-0" />
                 </Link>

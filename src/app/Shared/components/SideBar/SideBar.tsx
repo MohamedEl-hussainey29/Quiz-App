@@ -10,13 +10,19 @@ import AppLogo from "../../../images/Logo-black.svg"
 import { useContext, useState } from "react"
 import { AuthContext } from "@/src/context/AuthContext"
 import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
+import { useAuth } from "@/src/context/AuthContext"
 
-const items = [
+const instructorLinks = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Quizzes", url: "/dashboard/quizzes", icon: ClipboardClock },
   { title: "Questions", url: "/dashboard/questions", icon: Landmark },
   { title: "Groups", url: "/dashboard/groups", icon: Boxes },
   { title: "Students", url: "/dashboard/students", icon: Users },
+  { title: "Results", url: "/dashboard/results", icon: BarChart3 },
+]
+
+const studentLinks = [
+  { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Results", url: "/dashboard/results", icon: BarChart3 },
 ]
 
@@ -38,6 +44,10 @@ export default function SideBar() {
   const { isMobile, setOpenMobile } = useSidebar()
   const authContext = useContext(AuthContext)
   const [logoutOpen, setLogoutOpen] = useState(false)
+  const { userData } = useAuth()
+  const isStudent = userData?.role === "Student"
+
+  const menuLinks = isStudent ? studentLinks : instructorLinks
 
   const closeMobileSidebar = () => {
     if (isMobile) setOpenMobile(false)
@@ -57,7 +67,7 @@ export default function SideBar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="gap-1">
-              {items.map((item) => {
+              {menuLinks.map((item) => {
                 const isActive =
                   item.url === "/dashboard"
                     ? pathname === item.url
