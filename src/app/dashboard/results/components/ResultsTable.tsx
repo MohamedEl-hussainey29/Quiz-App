@@ -1,28 +1,49 @@
 "use client"
 
-import { ResultsAPI } from "@/src/api";
+import { GroupsAPI, ResultsAPI } from "@/src/api";
 import { ColumnDef, DataTable } from "@/src/app/Shared/components/DataTable/DataTable";
 import Pagination from "@/src/app/Shared/components/Pagination/Pagination";
 import useGetData from "@/src/hooks/useGetData";
 import { usePagination } from "@/src/hooks/usePagination";
+import { Group } from "@/src/types/groups";
 import { Result } from "@/src/types/results";
 import Link from "next/link";
+import { useMemo } from "react";
 
 export default function ResultsTable() {
 
+    const { data: results, isLoading: dataLoading } = useGetData<Result[]>(
+        ResultsAPI.getAllResults
+    );
+    const { data: groups } = useGetData<Group[]>(
+        GroupsAPI.GetAllGroups
+    );
+
+    // Build a lookup map: groupId -> Group
+    const groupsMap = useMemo(() => {
+        const map = new Map<string, Group>();
+        groups?.forEach((group) => {
+            map.set(group._id, group);
+        });
+        return map;
+    }, [groups]);
+
     const columns: ColumnDef<Result>[] = [
         { header: "Title", accessor: (row) => row?.quiz?.title },
-        { header: "Group Name", accessor: (row) => row?.quiz?.group },
+        {header: "Group Name", accessor: (row) => groupsMap.get(row?.quiz?.group)?.name ?? "—"},
+        {
+            header: "No. of persons in group",
+            accessor: (row) => {
+                const count = groupsMap.get(row?.quiz?.group)?.students.length ?? 0;
+                return `${count} ${count === 1 ? "Person" : "Persons"}`;
+            },
+        },
         {header: "Participants", accessor: (row) => {
             const count = Array.isArray(row.participants) ? row.participants.length : row.result ? 1 : 0;
             return `${count} ${count === 1 ? "Participant" : "Participants"}`;
         }},
         { header: "Date", accessor: (row) => new Date(row?.quiz?.schadule).toLocaleDateString("en-GB") }
     ]
-
-    const { data: results, isLoading: dataLoading } = useGetData<Result[]>(
-        ResultsAPI.getAllResults
-    );
 
     const { currentRows, currentPage, setCurrentPage, totalPages } = usePagination(results, 10);
 
