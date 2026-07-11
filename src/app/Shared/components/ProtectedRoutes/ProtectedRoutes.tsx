@@ -22,7 +22,11 @@ export default function ProtectedRoutes({children, role}: ProtectedRouteProps) {
     }
 
     if (role && userData?.role !== role) {
-      router.replace("/dashboard");
+      if (typeof window !== "undefined" && window.history.length > 1) {
+        router.back();
+      } else {
+        router.replace("/dashboard");
+      }
     }
   }, [loading, isAuthenticated, userData, role, router]);
 
