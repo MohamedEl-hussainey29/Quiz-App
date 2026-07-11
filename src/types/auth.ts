@@ -1,3 +1,4 @@
+import { Group } from "./groups";
 
 export interface LoginFormValues{
     email: string;
@@ -36,4 +37,10 @@ export interface User{
     email: string;
     status: string;
     role: string;
+    group?: Group;
+}
+
+export interface AccountUpdateForm{
+    first_name: string;
+    last_name: string;
 }

@@ -1,11 +1,11 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { CalendarDays, Clock3, Pencil, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { QuizzesAPI } from "@/src/api"
 
 import { Quiz } from "@/src/types/quizzes"
-import SkeletonUI from "@/src/app/dashboard/students/components/Skeleton"
 import NoData from "@/src/app/Shared/components/NoData/NoData"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import QuizData from "./QuizData"
@@ -24,15 +24,67 @@ function DetailRow({ label, value }: { label: string; value: React.ReactNode }) 
   )
 }
 
+function DetailRowSkeleton() {
+  return (
+    <div className="flex items-center justify-between overflow-hidden rounded-xl border border-gray-200 bg-white p-1">
+      <Skeleton className="h-8 w-32 rounded-full" />
+      <Skeleton className="mr-4 h-4 w-16" />
+    </div>
+  )
+}
+
+function QuizDetailsSkeleton() {
+  return (
+    <Card className="w-full max-w-md sm:mx-2">
+      <CardHeader>
+        <Skeleton className="h-6 w-3/4" />
+        <div className="mt-1 flex items-center gap-4">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-20" />
+        </div>
+      </CardHeader>
+
+      <CardContent className="flex flex-col gap-3">
+        <div className="flex gap-5 items-center">
+          <DetailRowSkeleton />
+          <DetailRowSkeleton />
+        </div>
+        <DetailRowSkeleton />
+        <DetailRowSkeleton />
+        <DetailRowSkeleton />
+
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+          <Skeleton className="h-8 w-full rounded-none" />
+          <div className="px-4 py-3 space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+        </div>
+
+        <div className="flex gap-5 items-center">
+          <DetailRowSkeleton />
+          <DetailRowSkeleton />
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <Skeleton className="h-9 w-24 rounded-lg" />
+          <Skeleton className="h-9 w-24 rounded-lg" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 function pad(n: number) {
   return String(n).padStart(2, "0")
 }
 
-interface QuizDetailsCardProps{
-    quizId: string;
+interface QuizDetailsCardProps {
+  quizId: string;
 }
 
-export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
+export default function QuizDetailsCard({ quizId }: QuizDetailsCardProps) {
   const [quiz, setQuiz] = useState<Quiz | null>(null)
   const [loading, setLoading] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
@@ -59,27 +111,44 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
     getQuiz()
   }, [quizId])
 
-    const deleteQuiz = async () => {
-        if (!quiz?._id) return;
-        try {
-            const response = await QuizzesAPI.DeleteQuiz(quiz?._id);
-            router.replace("/dashboard/quizzes");
-            toast.success(response?.data?.message)
-            setQuiz(null);
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message);
-            }
-        }
+  const deleteQuiz = async () => {
+    if (!quiz?._id) return;
+    try {
+      const response = await QuizzesAPI.DeleteQuiz(quiz?._id);
+      router.replace("/dashboard/quizzes");
+      toast.success(response?.data?.message)
+      setQuiz(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
+  }
 
   if (loading) {
-    return <SkeletonUI numElements={1} />
+    return (
+      <>
+        <Breadcrumb className="my-4 mx-2">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/dashboard/quizzes">Quizzes</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <Skeleton className="h-4 w-24" />
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <QuizDetailsSkeleton />
+      </>
+    )
   }
 
   if (!quiz) {
     return <NoData item="Quiz" />
   }
+
+  const isClosed = quiz.status?.toLowerCase() === "closed";
 
   const date = new Date(quiz.schadule)
   const formattedDate = `${pad(date.getDate())} / ${pad(date.getMonth() + 1)} / ${date.getFullYear()}`
@@ -93,15 +162,15 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
     <>
       <Breadcrumb className="my-4 mx-2">
         <BreadcrumbList>
-            <BreadcrumbItem>
+          <BreadcrumbItem>
             <BreadcrumbLink href="/dashboard/quizzes">Quizzes</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem className="text-black font-semibold">
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem className="text-black font-semibold">
             <BreadcrumbLink>{quiz.title}</BreadcrumbLink>
-            </BreadcrumbItem>
+          </BreadcrumbItem>
         </BreadcrumbList>
-        </Breadcrumb>
+      </Breadcrumb>
 
       <Card className="w-full max-w-md sm:mx-2">
         <CardHeader>
@@ -119,6 +188,10 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
         </CardHeader>
 
         <CardContent className="flex flex-col gap-3">
+          <div className="flex gap-5 items-center">
+            <DetailRow label="Category Type" value={`${quiz.type}`} />
+            <DetailRow label="Difficulty" value={`${quiz.difficulty}`} />
+          </div>
           <DetailRow label="Duration" value={`${quiz.duration} Minutes`} />
           <DetailRow label="Number of questions" value={`${quiz.questions_number} Questions`} />
           <DetailRow label="Score per question" value={`${quiz.score_per_question} Points`} />
@@ -131,8 +204,10 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
               {quiz.description}
             </p>
           </div>
-          <DetailRow label="Status" value={quiz.status} />
-          <DetailRow label="Join Code" value={quiz.code} />
+          <div className="flex gap-5 items-center">
+            <DetailRow label="Status" value={quiz.status} />
+            <DetailRow label="Join Code" value={quiz.code} />
+          </div>
 
           <div className="flex justify-end gap-2">
             <button
@@ -140,33 +215,34 @@ export default function QuizDetailsCard({quizId}:QuizDetailsCardProps) {
               className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white cursor-pointer"
             >
               <Trash2 className="h-4 w-4" />
-              
               Delete
             </button>
-            <button
-              onClick={() => setEditOpen(true)}
-              className="flex items-center gap-2 rounded-lg bg-[#0F1C2E] px-4 py-2 text-sm font-semibold text-white cursor-pointer"
-            >
-              <Pencil className="h-4 w-4" />
-              Edit
-            </button>
+            {!isClosed &&
+              <button
+                onClick={() => setEditOpen(true)}
+                className="flex items-center gap-2 rounded-lg bg-[#0F1C2E] px-4 py-2 text-sm font-semibold text-white cursor-pointer"
+              >
+                <Pencil className="h-4 w-4" />
+                Edit
+              </button>
+            }
           </div>
         </CardContent>
       </Card>
-      
+
       <QuizData
         open={editOpen}
         onOpenChange={setEditOpen}
         quizInfo={quiz}
       />
       <DeleteConfirmation
-            open={deleteOpen}
-            onOpenChange={setDeleteOpen}
-            onConfirm={deleteQuiz}
-            item="Quiz"
-            itemData={quiz}
-            displayName={quiz?.title}
-        />
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        onConfirm={deleteQuiz}
+        item="Quiz"
+        itemData={quiz}
+        displayName={quiz?.title}
+      />
     </>
   )
 }

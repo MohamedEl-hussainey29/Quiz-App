@@ -59,7 +59,7 @@ export default function UpcommingQuizzesCard() {
                     )}
                 </CardAction>
             </CardHeader>
-            <CardContent className="max-h-80 overflow-y-auto pr-1">
+            <CardContent className="max-h-80 overflow-y-auto">
                 {loading ? (
                     <SkeletonUI numElements={2} />
                 ) : quizzes.length > 0 ? (
@@ -99,7 +99,7 @@ export default function UpcommingQuizzesCard() {
                                 )}
 
                                 <Link
-                                    href={isStudent ? `/dashboard/quizzes/take/${quiz._id}` : `/dashboard/quizzes/${quiz._id}`}
+                                    href={isStudent ? `/dashboard/results/${quiz._id}` : `/dashboard/quizzes/${quiz._id}`}
                                     className="flex items-center gap-1 shrink-0 ml-auto"
                                 >
                                     <span className="font-semibold text-sm">Open</span>
@@ -111,7 +111,7 @@ export default function UpcommingQuizzesCard() {
                     );
                     })
                 ) : (
-                    <NoData item="Quizzes" />
+                    <NoData item="Quizzes" priority />
                 )}
             </CardContent>
         </Card>

@@ -3,7 +3,7 @@
 
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { useAuth } from "@/src/context/AuthContext"
-import { AlarmClockPlus, Mail, Bell, ChevronDown, LogOut, RotateCcwKey } from "lucide-react"
+import { AlarmClockPlus, Mail, Bell, ChevronDown, LogOut, RotateCcwKey, UserPen } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
@@ -12,6 +12,7 @@ import { LogoutConfirmation } from "../LogoutConfirmation/LogoutConfirmation"
 import Link from "next/link"
 import QuizData from "@/src/app/dashboard/quizzes/components/QuizData"
 import JoinQuizForm from "@/src/app/dashboard/quizzes/components/JoinQuizForm"
+import AccountUpdateDialog from "../AccountUpdateDialog/AccountUpdateDialog"
 
 function IconBadge({
   icon: Icon,
@@ -45,6 +46,7 @@ export default function NavBar() {
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [dataOpen, setDataOpen] = useState(false);
   const [joinFormOpen, setJoinFormOpen] = useState(false)
+  const [accUpdateOpen, setAccUpdateOpen] = useState(false)
 
   return (
     <header className="flex h-16 items-center justify-between border-b-2 bg-white px-3 sm:h-17.5 sm:px-4 py-2">
@@ -61,7 +63,7 @@ export default function NavBar() {
             onClick={()=> setDataOpen(true)}
             className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
             <AlarmClockPlus className="h-6 w-6 sm:h-8 sm:w-8" />
-            <span className="hidden sm:inline">New quiz</span>
+            <span className="hidden sm:inline">New Quiz</span>
           </button>
         )}
         
@@ -70,7 +72,7 @@ export default function NavBar() {
             onClick={()=> setJoinFormOpen(true)}
             className="flex items-center gap-2 rounded-full border border-gray-200 px-2.5 py-2 text-sm font-medium text-black hover:bg-gray-50 transition-colors sm:px-4 cursor-pointer">
             <AlarmClockPlus className="h-6 w-6 sm:h-8 sm:w-8" />
-            <span className="hidden sm:inline">Join quiz</span>
+            <span className="hidden sm:inline">Join Quiz</span>
           </button>
         )}
 
@@ -136,6 +138,14 @@ export default function NavBar() {
                   {userData?.email}
                 </span>
               </div>
+              {userData?.role == "Student" && (
+                <div className="flex items-center justify-between gap-2 text-sm">
+                  <span className="shrink-0 text-gray-500">Group</span>
+                  <span className="truncate font-medium text-black">
+                    {userData?.group?.name}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500">Status</span>
                 <span
@@ -152,6 +162,13 @@ export default function NavBar() {
             </div>
 
             <div className="border-t border-gray-100 p-2">
+              <button
+                onClick={() => setAccUpdateOpen(true)}
+                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-[#C5D86D] hover:bg-red-50 transition-colors cursor-pointer"
+              >
+                <UserPen className="h-4 w-4" />
+                Update My Account
+              </button>
               <Link
                 href="/change-pass"
                 className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-[#C5D86D] hover:bg-red-50 transition-colors cursor-pointer"
@@ -175,13 +192,22 @@ export default function NavBar() {
         onOpenChange={setLogoutOpen}
         onConfirm={logout}
       />
-      <QuizData 
-          open={dataOpen}
-          onOpenChange={setDataOpen}
-      />
-      <JoinQuizForm 
-          open={joinFormOpen}
-          onOpenChange={setJoinFormOpen}
+      {userRole === "Instructor" && (
+        <QuizData 
+            open={dataOpen}
+            onOpenChange={setDataOpen}
+        />
+      )}
+      {userRole === "Student" && (
+        <JoinQuizForm 
+            open={joinFormOpen}
+            onOpenChange={setJoinFormOpen}
+        />
+      )}
+      <AccountUpdateDialog
+          open={accUpdateOpen}
+          onOpenChange={setAccUpdateOpen}
+          userInfo={userData}
       />
     </header>
   )
