@@ -50,14 +50,16 @@ export default function JoinQuizForm({ open, onOpenChange}: JoinQuizProps) {
     const router = useRouter();
     const[submitLoading , setSubmitLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<JoinQuizFormValues>();
+  const { register, handleSubmit, formState: { errors },reset } = useForm<JoinQuizFormValues>();
 
   const onSubmit = async(data: JoinQuizFormValues)=>{
     setSubmitLoading(true);
     try{
         const response = await QuizzesAPI.JoinQuiz(data);
         router.push(`/dashboard/quizzes/take/${response?.data?.data?.quiz}`);
+        onOpenChange(false);
         toast.success(response?.data?.message);
+        reset();
     }catch(error){
         if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message ?? "Something went wrong")

@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { useAuth } from "@/src/context/AuthContext";
 
 export default function ResultsTable() {
-    const { userData } = useAuth();
+    const { userData, loading: authLoading } = useAuth();
     const isStudent = userData?.role === "Student";
 
     const { data: results, isLoading: dataLoading } = useGetData<Result[]>(
@@ -21,7 +21,7 @@ export default function ResultsTable() {
     const { data: groups } = useGetData<Group[]>(
         GroupsAPI.GetAllGroups,
         [],
-        !isStudent
+        !authLoading && !isStudent
     );
 
     // Build a lookup map: groupId -> Group

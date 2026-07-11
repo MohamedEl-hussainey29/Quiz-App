@@ -34,26 +34,24 @@ export default function CompletedQuizzesCard({ maxHeight }: { maxHeight?: string
 
     const columns: ColumnDef<Quiz>[] = useMemo(() => {
         const baseColumns: ColumnDef<Quiz>[] = [
-            { header: "Title", accessor: "title" },
+            { header: "Title", accessor: (row) => (
+            <Link href={isStudent?`/dashboard/results/${row._id}` :`/dashboard/quizzes/${row._id}`} className="text-primary" >
+                {row.title}
+            </Link>
+        )},
         ];
 
         if (!isStudent) {
             baseColumns.push(
                 { header: "Group Name", accessor: (row) => groupsMap.get(row.group)?.name ?? "—" },
-                {
-                    header: "No. of persons in group",
-                    accessor: (row) => {
+                { header: "No. of persons in group", accessor: (row) => {
                         const count = groupsMap.get(row.group)?.students.length ?? 0;
                         return `${count} ${count === 1 ? "Person" : "Persons"}`;
-                    },
-                }
+                }}
             );
         }
 
-        baseColumns.push({
-            header: "Date",
-            accessor: (row) => new Date(row.schadule).toLocaleDateString("en-GB"),
-        });
+        baseColumns.push({ header: "Date", accessor: (row) => new Date(row.schadule).toLocaleDateString("en-GB")});
 
         return baseColumns;
     }, [isStudent, groupsMap]);

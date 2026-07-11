@@ -3,15 +3,17 @@ import noDataImg from "../../../images/noData.avif";
 
 interface NoDataProps {
   item?: string;
+  priority?: boolean;
 }
 
-export default function NoData({ item = "Data" }: NoDataProps) {
+export default function NoData({ item = "Data", priority = false }: NoDataProps) {
   return (
     <div className="flex min-h-62.5 flex-col items-center justify-center px-6 py-8 text-center">
       <Image
         src={noDataImg}
         alt="No Data"
         className="w-35 max-w-[60%] object-contain"
+        priority={priority}
       />
 
       <h2 className="mt-6 text-[clamp(20px,4vw,28px)] font-bold text-[#494949]">

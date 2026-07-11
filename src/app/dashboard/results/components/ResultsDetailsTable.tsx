@@ -6,12 +6,15 @@ import { ResultsAPI } from "@/src/api";
 import { Result, Participant } from "@/src/types/results";
 import useGetData from "@/src/hooks/useGetData";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { useAuth } from "@/src/context/AuthContext";
 
 interface ResultDetailsTableProps {
     resultsId: string;
 }
 
 export default function ResultDetailsTable({ resultsId }: ResultDetailsTableProps) {
+    const { userData } = useAuth();
+    const isStudent = userData?.role === "Student";
     const { data: results, isLoading, error } = useGetData<Result[]>(
         ResultsAPI.getAllResults
     );
@@ -38,7 +41,7 @@ export default function ResultDetailsTable({ resultsId }: ResultDetailsTableProp
     ];
 
     if (error) return <div>Error: {error}</div>;
-    if (!isLoading && !result) return <div>No result found for this quiz.</div>;
+    // if (!isLoading && !result) return <div><NoData/></div>;
 
     return (
         <>
@@ -54,13 +57,14 @@ export default function ResultDetailsTable({ resultsId }: ResultDetailsTableProp
                 </BreadcrumbList>
             </Breadcrumb>
             <div className="pt-3 pb-6 px-5 my-4 mx-2 border-2 rounded-xl sm:w-1/2 max-h-[86vh] overflow-hidden flex flex-col">
-                <h2 className="text-xl font-semibold mb-4">Results</h2>
+                <h2 className="text-xl font-semibold mb-4">{isStudent? "Result" :"Results"}</h2>
                 <DataTable
                     columns={columns}
                     data={participants}
                     loading={isLoading}
                     getRowId={(row) => row._id}
-                    emptyLabel="Participants"
+                    emptyLabel= {isStudent? "Result" :"Participants"}
+                    maxHeight="70vh"
                 />
             </div>
         </>
