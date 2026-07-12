@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { CalendarDays, Clock3, Pencil, Trash2 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { QuizzesAPI } from "@/src/api"
 
 import { Quiz } from "@/src/types/quizzes"
@@ -91,25 +91,26 @@ export default function QuizDetailsCard({ quizId }: QuizDetailsCardProps) {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const router = useRouter();
 
-  useEffect(() => {
+
+  const getQuiz = useCallback(async () => {
     if (!quizId) return
-
-    const getQuiz = async () => {
-      setLoading(true)
-      try {
-        const response = await QuizzesAPI.GetQuizById(quizId)
-        setQuiz(response.data)
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message)
-        }
-      } finally {
-        setLoading(false)
+    setLoading(true)
+    try {
+      const response = await QuizzesAPI.GetQuizById(quizId)
+      setQuiz(response.data)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
       }
+    } finally {
+      setLoading(false)
     }
-
-    getQuiz()
   }, [quizId])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getQuiz()
+  }, [getQuiz])
 
   const deleteQuiz = async () => {
     if (!quiz?._id) return;
@@ -234,6 +235,7 @@ export default function QuizDetailsCard({ quizId }: QuizDetailsCardProps) {
         open={editOpen}
         onOpenChange={setEditOpen}
         quizInfo={quiz}
+        quizRefetch={getQuiz}
       />
       <DeleteConfirmation
         open={deleteOpen}

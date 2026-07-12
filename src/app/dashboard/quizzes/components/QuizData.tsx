@@ -13,9 +13,10 @@ import QuizSuccessDialog from "./QuizSuccessDialog";
 import axios from "axios";
 
 interface QuizDataProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  quizInfo?: Quiz | null
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  quizInfo?: Quiz | null;
+  quizRefetch?: ()=>void;
 }
 
 const emptyDefaults: QuizFormValues = {
@@ -30,7 +31,7 @@ const emptyDefaults: QuizFormValues = {
     score_per_question: 1,
 }
 
-export default function QuizData({ open, onOpenChange, quizInfo}: QuizDataProps) {
+export default function QuizData({ open, onOpenChange, quizInfo, quizRefetch}: QuizDataProps) {
   const [loading, setLoading] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [quizCode, setQuizCode] = useState("");
@@ -66,9 +67,16 @@ export default function QuizData({ open, onOpenChange, quizInfo}: QuizDataProps)
   const onSubmit = async (data: QuizFormValues) => {
     setLoading(true)
     try {
+      const payload = { ...data };
+      if (quizInfo) {
+        delete (payload as Partial<QuizFormValues>).questions_number;
+        delete (payload as Partial<QuizFormValues>).difficulty;
+        delete (payload as Partial<QuizFormValues>).type;
+      }
+
       const response = quizInfo
-        ? await QuizzesAPI.UpdateQuiz(quizInfo._id, data)
-        : await QuizzesAPI.CreateQuiz(data);
+        ? await QuizzesAPI.UpdateQuiz(quizInfo._id, payload)
+        : await QuizzesAPI.CreateQuiz(payload);
 
       onOpenChange(false);
       reset(emptyDefaults);
@@ -78,6 +86,7 @@ export default function QuizData({ open, onOpenChange, quizInfo}: QuizDataProps)
         setSuccessOpen(true);
       } else {
         toast.success(response?.data?.message);
+        quizRefetch?.();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -133,7 +142,7 @@ export default function QuizData({ open, onOpenChange, quizInfo}: QuizDataProps)
           {/* Body */}
           <div className="px-4 py-5 sm:px-8 sm:py-8">
             <form id="quiz-form" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-              <QuizForm register={register} control={control} errors={errors} groups={allGroups} />
+              <QuizForm register={register} control={control} errors={errors} groups={allGroups} isEdit={!!quizInfo} />
             </form>
           </div>
         </DialogContent>

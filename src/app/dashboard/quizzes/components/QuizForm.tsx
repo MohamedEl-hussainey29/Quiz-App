@@ -12,6 +12,7 @@ interface QuizFormProps {
   control: Control<QuizFormValues>
   errors: FieldErrors<QuizFormValues>
   groups: Group[] | null
+  isEdit?: boolean
 }
 
 const duration = [
@@ -132,7 +133,7 @@ function ScheduleInput({ value, onChange }: { value: string; onChange: (v: strin
   );
 }
 
-export default function QuizForm({ register, control, errors, groups }: QuizFormProps) {
+export default function QuizForm({ register, control, errors, groups, isEdit }: QuizFormProps) {
   
 
   return (
@@ -194,18 +195,21 @@ export default function QuizForm({ register, control, errors, groups }: QuizForm
               <Select
                 value={field.value?.toString()}
                 onValueChange={(value) => field.onChange(Number(value))}
+                disabled={isEdit}
               >
-                <SelectTrigger className="h-11 w-full border-0 bg-transparent px-3 shadow-none focus:ring-0">
+                <SelectTrigger
+                  className={cn(
+                    "h-11 w-full border-0 bg-transparent px-3 shadow-none focus:ring-0",
+                    isEdit && "cursor-not-allowed opacity-70 [&>svg]:hidden"
+                  )}
+                >
                   <SelectValue placeholder="5 Questions" />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectGroup>
                     {questions_number.map((option) => (
-                      <SelectItem
-                        key={option.value}
-                        value={option.value.toString()}
-                      >
+                      <SelectItem key={option.value} value={option.value.toString()}>
                         {option.label}
                       </SelectItem>
                     ))}
@@ -285,8 +289,13 @@ export default function QuizForm({ register, control, errors, groups }: QuizForm
             control={control}
             rules={{ required: "Please select the Difficulty" }}
             render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className= "h-11 w-full border-0 bg-transparent px-3 shadow-none focus:ring-0" >
+              <Select value={field.value} onValueChange={field.onChange} disabled={isEdit}>
+                <SelectTrigger
+                  className={cn(
+                    "h-11 w-full border-0 bg-transparent px-3 shadow-none focus:ring-0",
+                    isEdit && "cursor-not-allowed opacity-70 [&>svg]:hidden"
+                  )}
+                >
                   <SelectValue placeholder="easy" />
                 </SelectTrigger>
                 <SelectContent>
@@ -310,8 +319,13 @@ export default function QuizForm({ register, control, errors, groups }: QuizForm
             control={control}
             rules={{ required: "Please select a category" }}
             render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className= "h-11 w-full border-0 bg-transparent px-3 shadow-none focus:ring-0" >
+              <Select value={field.value} onValueChange={field.onChange} disabled={isEdit}>
+                <SelectTrigger
+                  className={cn(
+                    "h-11 w-full border-0 bg-transparent px-3 shadow-none focus:ring-0",
+                    isEdit && "cursor-not-allowed opacity-70 [&>svg]:hidden"
+                  )}
+                >
                   <SelectValue placeholder="FE" />
                 </SelectTrigger>
                 <SelectContent>
