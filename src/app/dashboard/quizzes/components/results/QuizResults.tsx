@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { QuizResult } from "@/src/types/quizzes";
 import QuestionReviewCard from "./QuestionReviewCard";
 
@@ -12,17 +13,25 @@ export default function QuizResults({
 }: QuizResultProps) {
   return (
     <section className="rounded-2xl bg-white p-6 shadow">
-      <h1 className="text-3xl font-bold">Quiz Result</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Quiz Result</h1>
+          <p className="mt-4 text-xl">
+            Score: {result.score}
+          </p>
+          <p className="mt-2">
+            Started: {new Date(result.started_at).toLocaleString()}
+          </p>
+          <p>Finished: {new Date(result.finished_at).toLocaleString()}</p>
+        </div>
 
-      <p className="mt-4 text-xl">
-        Score: {result.score}/{result.questions.length}
-      </p>
-
-      <p className="mt-2">
-        Started: {new Date(result.started_at).toLocaleString()}
-      </p>
-
-      <p>Finished: {new Date(result.finished_at).toLocaleString()}</p>
+        <Link
+          href="/dashboard"
+          className="inline-flex w-full items-center justify-center rounded-lg bg-[#C5D86D] px-4 py-2 text-sm font-medium text-black transition sm:w-auto"
+        >
+          Back to home
+        </Link>
+      </div>
 
       <div className="mt-8 space-y-6">
         {result.questions.map((question, index) => (
