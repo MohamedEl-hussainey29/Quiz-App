@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export default async function StudentQuiz({params}:any ) {
+import TakeQuiz from "../../components/take/TakeQuiz";
+
+interface StudentQuizProps {
+  params: Promise<{
+    quizId: string;
+  }>;
+}
+
+export default async function StudentQuiz({params}:StudentQuizProps ) {
+
     const {quizId} = await params;
+
   return (
     <div>
-        {quizId}
+      <TakeQuiz quizId={quizId}/>
+       
     </div>
   )
 }

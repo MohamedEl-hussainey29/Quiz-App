@@ -1,31 +1,38 @@
-import { JoinQuizFormValues, QuizFormValues } from "@/src/types/quizzes";
-import axiosClient from "../axiosClient"
+import { JoinQuizFormValues, QuizFormValues, SubmitQuizPayload } from "@/src/types/quizzes";
+import axiosClient from "../axiosClient";
 
+export const GetUpcommingQuizzes = () => {
+  return axiosClient.get("/quiz/incomming");
+};
 
-export const GetUpcommingQuizzes = ()=>{
-    return axiosClient.get("/quiz/incomming");
-}
+export const GetCompletedQuizzes = () => {
+  return axiosClient.get("/quiz/completed");
+};
 
-export const GetCompletedQuizzes = ()=>{
-    return axiosClient.get("/quiz/completed");
-}
+export const GetQuizById = (id: string) => {
+  return axiosClient.get(`/quiz/${id}`);
+};
 
-export const GetQuizById = (id: string)=>{
-    return axiosClient.get(`/quiz/${id}`);
-}
+export const CreateQuiz = (data: QuizFormValues) => {
+  return axiosClient.post("/quiz", data);
+};
 
-export const CreateQuiz = (data: QuizFormValues)=>{
-    return axiosClient.post("/quiz", data);
-}
+export const UpdateQuiz = (id: string, data: QuizFormValues) => {
+  return axiosClient.put(`/quiz/${id}`, data);
+};
 
-export const UpdateQuiz = (id: string, data: QuizFormValues)=>{
-    return axiosClient.put(`/quiz/${id}`, data);
-}
+export const DeleteQuiz = (id: string) => {
+  return axiosClient.delete(`/quiz/${id}`);
+};
 
-export const DeleteQuiz = (id: string)=>{
-    return axiosClient.delete(`/quiz/${id}`);
-}
+export const JoinQuiz = (data: JoinQuizFormValues) => {
+  return axiosClient.post("/quiz/join", data);
+};
 
-export const JoinQuiz = (data: JoinQuizFormValues)=>{
-    return axiosClient.post("/quiz/join", data);
-}
+export const GetQuestionsWithoutAnswers = (id: string) => {
+  return axiosClient.get(`/quiz/without-answers/${id}`);
+};
+
+export const SubmitQuiz = (id: string, payload: SubmitQuizPayload) => {
+  return axiosClient.post(`/quiz/submit/${id}`, payload);
+};
