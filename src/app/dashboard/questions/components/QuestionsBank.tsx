@@ -195,11 +195,13 @@ export default function QuestionsBank() {
                     )}
                 </div>
 
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    setCurrentPage={setCurrentPage}
-                />
+                <div className="mb-4">
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                    />
+                </div>
             </div>
         </div>
 
