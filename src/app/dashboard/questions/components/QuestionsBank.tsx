@@ -104,7 +104,7 @@ export default function QuestionsBank() {
 
   return (
     <>
-        <div className="pt-3 pb-6 px-5 my-4 mx-2 border-2 rounded-xl max-h-[86vh] overflow-hidden flex flex-col">
+        <div className="pt-3 pb-2 px-3 sm:px-5 my-4 mx-2 border-2 rounded-xl max-h-[86vh] overflow-hidden flex flex-col">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Bank Of Questions{questions ? ` (${questions.length})` : ""}</h2>
                 <button
@@ -195,7 +195,7 @@ export default function QuestionsBank() {
                     )}
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-10">
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}

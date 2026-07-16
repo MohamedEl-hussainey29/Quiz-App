@@ -15,7 +15,7 @@ export default function Pagination({currentPage, totalPages, setCurrentPage,}: P
   return (
     <>
      
-      <div className='flex items-center justify-center gap-2 mt-5'>
+      <div className='flex items-center justify-center gap-2 mt-2'>
        <button disabled={currentPage === 1} 
        onClick={() => setCurrentPage(currentPage - 1)} 
        className="size-10 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
